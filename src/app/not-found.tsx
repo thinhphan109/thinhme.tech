@@ -25,7 +25,7 @@ export default function NotFound() {
         <motion.div
           initial={{ opacity: 0, scale: 0.5 }}
           animate={{ opacity: 1, scale: 1 }}
-          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] }}
+          transition={{ duration: 0.6, ease: [0.25, 0.46, 0.45, 0.94] as const }}
         >
           <h1
             className="text-[10rem] font-extrabold leading-none text-transparent bg-clip-text bg-gradient-to-br from-peach via-lavender to-mint md:text-[14rem]"

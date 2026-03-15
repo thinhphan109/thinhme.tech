@@ -111,6 +111,22 @@ body.dark {
   from { width: 0%; }
 }
 
+@keyframes orbit-spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+@keyframes orbit-spin-reverse {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(-360deg); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { box-shadow: 0 0 30px rgba(255,176,156,0.3); }
+  33% { box-shadow: 0 0 30px rgba(196,181,253,0.3); }
+  66% { box-shadow: 0 0 30px rgba(125,211,192,0.3); }
+}
+
 /* ===== SCROLL PROGRESS BAR ===== */
 #scroll-progress {
   position: fixed;

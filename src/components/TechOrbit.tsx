@@ -96,45 +96,27 @@ function OrbitRing({
 
 export default function TechOrbit() {
   return (
-    <>
-      {/* CSS animations — runs on compositor thread, zero JS overhead */}
-      <style jsx>{`
-        @keyframes orbit-spin {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
-        }
-        @keyframes orbit-spin-reverse {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(-360deg); }
-        }
-        @keyframes glow-pulse {
-          0%, 100% { box-shadow: 0 0 30px rgba(255,176,156,0.3); }
-          33% { box-shadow: 0 0 30px rgba(196,181,253,0.3); }
-          66% { box-shadow: 0 0 30px rgba(125,211,192,0.3); }
-        }
-      `}</style>
-      <div className="relative mx-auto flex h-[420px] w-[420px] items-center justify-center md:h-[500px] md:w-[500px]">
-        {/* Center logo */}
-        <div
-          className="relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-peach via-lavender to-mint shadow-2xl"
-          style={{ animation: "glow-pulse 4s ease-in-out infinite" }}
+    <div className="relative mx-auto flex h-[420px] w-[420px] items-center justify-center md:h-[500px] md:w-[500px]">
+      {/* Center logo */}
+      <div
+        className="relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-peach via-lavender to-mint shadow-2xl"
+        style={{ animation: "glow-pulse 4s ease-in-out infinite" }}
+      >
+        <span
+          className="text-2xl font-extrabold text-navy"
+          style={{ fontFamily: "var(--font-syne)" }}
         >
-          <span
-            className="text-2xl font-extrabold text-navy"
-            style={{ fontFamily: "var(--font-syne)" }}
-          >
-            TP
-          </span>
-        </div>
-
-        {/* Orbits */}
-        <OrbitRing items={innerOrbit} radius={100} duration={20} />
-        <OrbitRing items={middleOrbit} radius={160} duration={30} reverse />
-        <OrbitRing items={outerOrbit} radius={220} duration={40} />
-
-        {/* Ambient glow */}
-        <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-radial from-lavender/5 to-transparent dark:from-lavender/3" />
+          TP
+        </span>
       </div>
-    </>
+
+      {/* Orbits */}
+      <OrbitRing items={innerOrbit} radius={100} duration={20} />
+      <OrbitRing items={middleOrbit} radius={160} duration={30} reverse />
+      <OrbitRing items={outerOrbit} radius={220} duration={40} />
+
+      {/* Ambient glow */}
+      <div className="pointer-events-none absolute inset-0 rounded-full bg-gradient-radial from-lavender/5 to-transparent dark:from-lavender/3" />
+    </div>
   );
 }
