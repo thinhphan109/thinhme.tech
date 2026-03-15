@@ -1,26 +1,202 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+/* Enable class-based dark mode (Tailwind v4) */
+@custom-variant dark (&:where(.dark, .dark *));
+
+/* ===== DESIGN SYSTEM: LIQUID MOTION ===== */
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  /* Colors */
+  --color-cream: #FAF8F5;
+  --color-cream-dark: #F0EDE8;
+  --color-surface: #FFFFFF;
+  --color-navy: #1A1A2E;
+  --color-navy-light: #2D2D44;
+  --color-gray: #6B7280;
+  --color-gray-light: #9CA3AF;
+  --color-peach: #FFB09C;
+  --color-peach-light: #FFD4C8;
+  --color-lavender: #C4B5FD;
+  --color-lavender-light: #DDD6FE;
+  --color-mint: #6EE7B7;
+  --color-mint-light: #A7F3D0;
+  --color-dark-bg: #0F0F1A;
+  --color-dark-surface: #1A1A2E;
+  --color-dark-card: #252540;
+
+  /* Fonts */
+  --font-heading: var(--font-syne);
+  --font-body: var(--font-inter);
+  --font-mono: var(--font-jetbrains);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+/* ===== GLOBAL STYLES ===== */
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-navy);
+  font-family: var(--font-body), system-ui, sans-serif;
+  overflow-x: hidden;
+  transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+body.dark {
+  background: var(--color-dark-bg);
+  color: #E5E7EB;
+}
+
+::selection {
+  background: var(--color-peach);
+  color: var(--color-navy);
+}
+
+/* ===== CUSTOM SCROLLBAR ===== */
+::-webkit-scrollbar {
+  width: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-lavender);
+  border-radius: 999px;
+}
+
+/* ===== BLOB ANIMATIONS ===== */
+@keyframes blob-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(30px, -50px) scale(1.1); }
+  50% { transform: translate(-20px, 20px) scale(0.95); }
+  75% { transform: translate(40px, 30px) scale(1.05); }
+}
+
+@keyframes blob-float-reverse {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25% { transform: translate(-40px, 30px) scale(1.05); }
+  50% { transform: translate(30px, -20px) scale(0.9); }
+  75% { transform: translate(-20px, -40px) scale(1.1); }
+}
+
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(1.5); }
+}
+
+@keyframes gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes progress-bar {
+  from { width: 0%; }
+}
+
+/* ===== SCROLL PROGRESS BAR ===== */
+#scroll-progress {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-peach), var(--color-lavender), var(--color-mint));
+  z-index: 9999;
+  transition: width 0.1s linear;
+  box-shadow: 0 0 10px var(--color-peach), 0 0 5px var(--color-lavender);
+}
+
+/* ===== SECTION REVEAL ===== */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===== MARQUEE ===== */
+.marquee-track {
+  animation: marquee 20s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+/* ===== MAGNETIC HOVER ===== */
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+/* ===== PROJECT CARD HOVER ===== */
+.project-card {
+  transition: transform 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.4s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 60px -15px rgba(0, 0, 0, 0.15);
+}
+
+.project-card img {
+  transition: transform 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94), filter 0.6s ease;
+  filter: grayscale(40%);
+}
+
+.project-card:hover img {
+  transform: scale(1.05);
+  filter: grayscale(0%);
+}
+
+/* ===== SKILL BAR ===== */
+.skill-bar-fill {
+  width: 0;
+  transition: width 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.skill-bar-fill.animate {
+  width: var(--skill-level);
+}
+
+/* ===== DARK MODE OVERRIDES ===== */
+.dark body,
+body.dark {
+  background: var(--color-dark-bg);
+}
+
+.dark .project-card:hover {
+  box-shadow: 0 20px 60px -15px rgba(196, 181, 253, 0.15);
+}
+
+/* ===== FADE IN ANIMATION ===== */
+.animate-fade-in {
+  animation: fade-in-up 0.4s ease forwards;
+}
+
+/* ===== SMOOTH TRANSITIONS ===== */
+@media (prefers-reduced-motion: reduce) {
+  .reveal { transition: none; }
+  .marquee-track { animation: none; }
+  .skill-bar-fill { transition: none; }
 }
