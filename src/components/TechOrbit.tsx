@@ -1,30 +1,32 @@
 "use client";
 
+import TPLogo from "./TPLogo";
+
 interface OrbitItem {
   name: string;
   color: string;
-  icon: string;
+  slug: string; // Simple Icons slug
 }
 
 const innerOrbit: OrbitItem[] = [
-  { name: "Python", color: "#FFB09C", icon: "🐍" },
-  { name: "TypeScript", color: "#C4B5FD", icon: "TS" },
-  { name: "React", color: "#7DD3C0", icon: "⚛️" },
+  { name: "Python", color: "#FFB09C", slug: "python" },
+  { name: "TypeScript", color: "#C4B5FD", slug: "typescript" },
+  { name: "React", color: "#7DD3C0", slug: "react" },
 ];
 
 const middleOrbit: OrbitItem[] = [
-  { name: "Docker", color: "#FFB09C", icon: "🐳" },
-  { name: "Node.js", color: "#7DD3C0", icon: "⬢" },
-  { name: "Next.js", color: "#C4B5FD", icon: "▲" },
-  { name: "Java", color: "#FFB09C", icon: "☕" },
+  { name: "Docker", color: "#FFB09C", slug: "docker" },
+  { name: "Node.js", color: "#7DD3C0", slug: "nodedotjs" },
+  { name: "Next.js", color: "#C4B5FD", slug: "nextdotjs" },
+  { name: "Java", color: "#FFB09C", slug: "openjdk" },
 ];
 
 const outerOrbit: OrbitItem[] = [
-  { name: "Arduino", color: "#7DD3C0", icon: "🔌" },
-  { name: "Linux", color: "#C4B5FD", icon: "🐧" },
-  { name: "Git", color: "#FFB09C", icon: "🔀" },
-  { name: "Shell", color: "#7DD3C0", icon: "$_" },
-  { name: "C++", color: "#C4B5FD", icon: "⊕" },
+  { name: "Arduino", color: "#7DD3C0", slug: "arduino" },
+  { name: "Linux", color: "#C4B5FD", slug: "linux" },
+  { name: "Git", color: "#FFB09C", slug: "git" },
+  { name: "PostgreSQL", color: "#7DD3C0", slug: "postgresql" },
+  { name: "C++", color: "#C4B5FD", slug: "cplusplus" },
 ];
 
 function OrbitRing({
@@ -59,7 +61,7 @@ function OrbitRing({
         }}
       />
 
-      {/* Orbit nodes — counter-rotate to stay upright */}
+      {/* Orbit nodes */}
       {items.map((item, i) => {
         const angle = (360 / items.length) * i;
         const rad = (angle * Math.PI) / 180;
@@ -71,17 +73,24 @@ function OrbitRing({
             key={item.name}
             className="absolute flex flex-col items-center gap-1"
             style={{
-              top: `calc(50% + ${y}px - 20px)`,
-              left: `calc(50% + ${x}px - 20px)`,
+              top: `calc(50% + ${y}px - 22px)`,
+              left: `calc(50% + ${x}px - 22px)`,
               animation: `${reverse ? "orbit-spin" : "orbit-spin-reverse"} ${duration}s linear infinite`,
               willChange: "transform",
             }}
           >
             <div
-              className="group relative flex h-10 w-10 items-center justify-center rounded-xl border border-navy/10 bg-white text-sm font-bold shadow-md transition-all hover:scale-125 hover:shadow-lg dark:border-white/10 dark:bg-dark-card"
-              style={{ boxShadow: `0 0 15px ${item.color}20` }}
+              className="group relative flex h-11 w-11 items-center justify-center rounded-xl border border-navy/10 bg-white shadow-md transition-all hover:scale-125 hover:shadow-lg dark:border-white/10 dark:bg-dark-card"
+              style={{ boxShadow: `0 0 15px ${item.color}25` }}
             >
-              <span className="text-base">{item.icon}</span>
+              {/* Official Brand Logo from Simple Icons CDN */}
+              <img
+                src={`https://cdn.simpleicons.org/${item.slug}/${item.color.replace("#", "")}`}
+                alt={item.name}
+                className="h-5 w-5 object-contain transition-all group-hover:brightness-110"
+                loading="lazy"
+              />
+              
               {/* Tooltip */}
               <div className="pointer-events-none absolute -bottom-8 whitespace-nowrap rounded-md bg-navy px-2 py-0.5 text-[10px] font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-white dark:text-navy">
                 {item.name}
@@ -97,17 +106,17 @@ function OrbitRing({
 export default function TechOrbit() {
   return (
     <div className="relative mx-auto flex h-[420px] w-[420px] items-center justify-center md:h-[500px] md:w-[500px]">
-      {/* Center logo */}
-      <div
-        className="relative z-10 flex h-20 w-20 items-center justify-center rounded-2xl bg-gradient-to-br from-peach via-lavender to-mint shadow-2xl"
-        style={{ animation: "glow-pulse 4s ease-in-out infinite" }}
-      >
-        <span
-          className="text-2xl font-extrabold text-navy"
-          style={{ fontFamily: "var(--font-syne)" }}
+      {/* Center logo (Your TP Logo) */}
+      <div className="relative group">
+        {/* Colorful Aura behind the core */}
+        <div className="absolute inset-0 -z-10 bg-gradient-to-r from-peach/30 via-lavender/30 to-mint/30 rounded-full blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-1000" />
+        
+        <div
+          className="relative z-10 flex h-24 w-24 items-center justify-center rounded-[2.5rem] bg-gradient-to-br from-navy via-[#0D1117] to-navy/80 border border-white/10 shadow-2xl backdrop-blur-md"
+          style={{ animation: "glow-pulse 4s ease-in-out infinite" }}
         >
-          TP
-        </span>
+          <TPLogo className="h-[75%] w-[75%] drop-shadow-[0_0_15px_rgba(255,255,255,0.4)]" />
+        </div>
       </div>
 
       {/* Orbits */}

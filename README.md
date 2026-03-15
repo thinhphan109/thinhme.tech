@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Thinh Phan — Personal Portfolio
 
-## Getting Started
+A premium, highly-performant developer portfolio built with a "Liquid Motion" design language.
 
-First, run the development server:
+## 🚀 Tech Stack
+- **Framework:** [Next.js 16 (App Router)](https://nextjs.org/) with Turbopack.
+- **Styling:** [TailwindCSS v4](https://tailwindcss.com/) (latest).
+- **Animations:** [Framer Motion](https://www.framer.com/motion/) & Pure CSS Keyframes.
+- **Icons:** [Lucide React](https://lucide.dev/) & [Simple Icons](https://simpleicons.org/).
+- **Language:** TypeScript 5.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🎨 Design System: "Liquid Motion"
+The portfolio follows a curated aesthetic aimed at a premium, state-of-the-art feel.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### Color Palette
+- **Peach (#FFB09C):** Soft call-to-action and highlights.
+- **Lavender (#C4B5FD):** Secondary accents and gradients.
+- **Mint (#6EE7B7):** Success states and technical highlights.
+- **Navy (#1A1A2E / #0D1117):** Deep backgrounds for high-contrast presentation.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Typography
+- **Syne:** Professional yet unique headings.
+- **Inter:** Highly readable body text.
+- **JetBrains Mono:** For code-like elements and the Interactive Terminal.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+---
 
-## Learn More
+## 🛠️ Key Technical Features
 
-To learn more about Next.js, take a look at the following resources:
+### 1. High-Performance Tech Universe (Orbit)
+Located in `src/components/TechOrbit.tsx`.
+- **Optimization:** Uses pure CSS `@keyframes` for rotations to offload animations to the **GPU compositor thread**. This ensures 60FPS even when the main thread is busy.
+- **Visuals:** Features official brand logos from Simple Icons CDN, dynamically color-tinted to match the theme.
+- **Center Piece:** A custom-drawn SVG logo (`TPLogo.tsx`) which is vector-based for perfect scaling and transparency.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 2. Interactive Terminal
+Located in `src/components/InteractiveTerminal.tsx`.
+- Provides an immersive way for tech-savvy visitors to explore the portfolio.
+- **Commands:** `help`, `about`, `skills`, `projects`, `neofetch`, etc.
+- **Logic:** Custom state-based command processor with command history support.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+### 3. GitHub Contributions Bar Chart
+Located in `src/components/GitHubHeatmap.tsx`.
+- Fetches real-time data from GitHub.
+- Offers a **3D perspective bar chart** view (simulating a cityscape) and a traditional 2D flat view.
+- Optimized rendering using local state and CSS transforms instead of heavy motion libraries for every single cell.
 
-## Deploy on Vercel
+### 4. SEO & Social Sharing
+- **Meta Tags:** Fully configured Open Graph and Twitter Card tags in `layout.tsx`.
+- **Favicon:** Uses a high-quality `icon.svg` for crisp rendering on high-DPI displays.
+- **OG Image:** A custom-designed 1200x630 preview image at `public/og-image.png`.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+### 5. Console Easter Egg
+- A specialized component `ConsoleEasterEgg.tsx` that triggers a stylized ASCII "TP" logo and technical contact info in the browser's Developer Tools (F12).
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## 📈 Performance Optimization Strategies
+- **GPU Acceleration:** Heavy use of `will-change: transform` and `backdrop-filter` where appropriate.
+- **Passive Listeners:** All scroll and mouse events use `{ passive: true }` to prevent blocking the scrolling thread.
+- **SVG over PNG:** Critical logos and icons are SVG to ensure fast loading and zero blurring.
+- **Framer Motion Tuning:** Transitions use `type: "spring"` for a physical feel or specific cubic-beziers for the liquid motion effect.
+
+## 📂 Project Structure
+- `src/app/`: Next.js pages and layouts.
+- `src/components/`: Reusable UI modules (Atomic design approach).
+- `src/lib/data.ts`: **The single source of truth** for all personal info, projects, and skills. Update this file to change site content.
+- `src/lib/animations.ts`: Centralized animation variants.
+- `public/`: Static assets (Logos, OG Images, SVGs).
+
+## 🚀 Development & Maintenance
+To update the skills or projects, modify the exports in `src/lib/data.ts`.
+To fix animation timing site-wide, update constants in `src/lib/animations.ts`.
+
+---
+Built with ❤️ by Thinh Phan

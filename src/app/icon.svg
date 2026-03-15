@@ -1,0 +1,15 @@
+<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="32" height="32" rx="8" fill="#0D1117"/>
+  <defs>
+    <linearGradient id="silver-fav" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="100%" stop-color="#9CA3AF" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Stylized T -->
+  <path d="M8 10 H18 V13 H14.5 V24 H11.5 V13 H8 V10Z" fill="url(#silver-fav)"/>
+  
+  <!-- Stylized P -->
+  <path d="M16 10 H22 C25 10 26 12 26 15 C26 18 25 20 22 20 H19.5 V24 H16 V10ZM19.5 13 V17 H22 C23 17 23.5 16.5 23.5 15 C23.5 13.5 23 13 22 13 H19.5Z" fill="url(#silver-fav)"/>
+</svg>
