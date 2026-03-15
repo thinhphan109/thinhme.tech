@@ -14,7 +14,7 @@ export const personalInfo = {
 
 export const socialLinks = [
   { name: "GitHub", url: "https://github.com/thinhphan109", icon: "github" },
-  { name: "Website", url: "https://thinhphan.io.vn", icon: "globe" },
+  { name: "Website", url: "https://thinhme.tech", icon: "globe" },
   { name: "Email", url: "mailto:hello@thinhme.tech", icon: "mail" },
 ];
 

@@ -1,10 +1,13 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { Code2, GitBranch, Coffee, Zap } from "lucide-react";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
+import { staggerContainer, fadeInUp } from "@/lib/animations";
 
 const stats = [
-  { icon: <Coffee className="h-6 w-6" />, value: 5, suffix: "+", label: "Năm vọc phá", color: "text-peach" },
+  { icon: <Coffee className="h-6 w-6" />, value: 5, suffix: "+", label: "Years Experience", color: "text-peach" },
   { icon: <GitBranch className="h-6 w-6" />, value: 9, suffix: "", label: "Public Repos", color: "text-lavender" },
   { icon: <Code2 className="h-6 w-6" />, value: 1000, suffix: "+", label: "Contributions", color: "text-mint" },
   { icon: <Zap className="h-6 w-6" />, value: 6, suffix: "+", label: "Tech Stacks", color: "text-peach" },
@@ -41,46 +44,52 @@ function AnimatedNumber({ target, suffix, animated }: { target: number; suffix: 
 
 export default function Stats() {
   const sectionRef = useRef<HTMLElement>(null);
-  const [animated, setAnimated] = useState(false);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setAnimated(true);
-          }
-        });
-      },
-      { threshold: 0.3 }
-    );
-
-    if (sectionRef.current) observer.observe(sectionRef.current);
-    return () => observer.disconnect();
-  }, []);
+  const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
 
   return (
-    <section ref={sectionRef} className="relative mx-auto max-w-4xl px-6 py-16">
+    <motion.section
+      ref={sectionRef}
+      className="relative mx-auto max-w-4xl px-6 py-16 overflow-hidden"
+      variants={staggerContainer}
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, amount: 0.3 }}
+    >
+      {/* Gradient accent glow */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-r from-peach/5 via-lavender/5 to-mint/5 dark:from-peach/3 dark:via-lavender/3 dark:to-mint/3" />
+      <div
+        className="pointer-events-none absolute left-1/2 top-0 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-lavender/10 blur-[100px] dark:bg-lavender/5"
+        style={{ animation: "blob-float 15s ease-in-out infinite" }}
+      />
       <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
         {stats.map((stat, i) => (
-          <div
+          <motion.div
             key={i}
-            className="reveal group flex flex-col items-center gap-3 rounded-2xl border border-navy/5 bg-white p-6 text-center transition-all duration-500 hover:-translate-y-2 hover:shadow-xl dark:border-white/5 dark:bg-dark-card"
-            style={{ transitionDelay: `${i * 100}ms` }}
+            className="group flex flex-col items-center gap-3 rounded-2xl border border-navy/5 bg-white p-6 text-center dark:border-white/5 dark:bg-dark-card"
+            variants={fadeInUp}
+            whileHover={{
+              y: -8,
+              boxShadow: "0 20px 40px -10px rgba(0,0,0,0.12)",
+              transition: { duration: 0.3 },
+            }}
           >
-            <div className={`${stat.color} transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12`}>
+            <motion.div
+              className={stat.color}
+              whileHover={{ scale: 1.25, rotate: 12 }}
+              transition={{ type: "spring", stiffness: 300 }}
+            >
               {stat.icon}
-            </div>
+            </motion.div>
             <p
               className="text-3xl font-extrabold text-navy dark:text-white md:text-4xl"
               style={{ fontFamily: "var(--font-syne)" }}
             >
-              <AnimatedNumber target={stat.value} suffix={stat.suffix} animated={animated} />
+              <AnimatedNumber target={stat.value} suffix={stat.suffix} animated={isInView} />
             </p>
             <p className="text-xs font-medium text-gray dark:text-gray-light">{stat.label}</p>
-          </div>
+          </motion.div>
         ))}
       </div>
-    </section>
+    </motion.section>
   );
 }

@@ -2,7 +2,17 @@
 
 import { socialLinks } from "@/lib/data";
 import { Github, Globe, Mail, Send, ArrowUpRight } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
+import { useState } from "react";
+import {
+  fadeInUp,
+  fadeInLeft,
+  fadeInRight,
+  staggerContainer,
+  sectionTitle,
+  scaleIn,
+  defaultViewport,
+} from "@/lib/animations";
 
 const iconMap: Record<string, React.ReactNode> = {
   github: <Github className="h-5 w-5" />,
@@ -11,7 +21,6 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export default function Contact() {
-  const sectionRef = useRef<HTMLElement>(null);
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -19,24 +28,6 @@ export default function Contact() {
   });
   const [sending, setSending] = useState(false);
   const [focusedInput, setFocusedInput] = useState<string | null>(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("visible");
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const reveals = sectionRef.current?.querySelectorAll(".reveal");
-    reveals?.forEach((el) => observer.observe(el));
-
-    return () => observer.disconnect();
-  }, []);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -51,17 +42,28 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      ref={sectionRef}
       className="relative mx-auto max-w-6xl px-6 py-32"
     >
-      {/* Background blob */}
+      {/* Background blobs */}
       <div
         className="pointer-events-none absolute right-0 -bottom-40 h-[500px] w-[500px] rounded-full bg-mint/10 blur-[120px] dark:bg-mint/5"
         style={{ animation: "blob-float 14s ease-in-out infinite" }}
       />
+      <div
+        className="pointer-events-none absolute -left-20 top-20 h-[400px] w-[400px] rounded-full bg-peach/10 blur-[100px] dark:bg-peach/5"
+        style={{ animation: "blob-float-reverse 18s ease-in-out infinite 2s" }}
+      />
+      {/* Grid pattern */}
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(rgba(26,26,46,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(26,26,46,0.02)_1px,transparent_1px)] bg-[size:50px_50px] dark:bg-[linear-gradient(rgba(255,255,255,0.015)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.015)_1px,transparent_1px)]" />
 
       {/* Section Title */}
-      <div className="reveal mb-16">
+      <motion.div
+        className="mb-16"
+        variants={sectionTitle}
+        initial="hidden"
+        whileInView="visible"
+        viewport={defaultViewport}
+      >
         <p
           className="mb-2 text-xs tracking-[0.3em] uppercase text-peach"
           style={{ fontFamily: "var(--font-jetbrains)" }}
@@ -74,45 +76,79 @@ export default function Contact() {
         >
           Let&apos;s Connect
         </h2>
-      </div>
+      </motion.div>
 
       <div className="grid gap-16 md:grid-cols-2">
         {/* Left - Info */}
-        <div className="reveal">
+        <motion.div
+          variants={fadeInLeft}
+          initial="hidden"
+          whileInView="visible"
+          viewport={defaultViewport}
+        >
           <p className="mb-8 text-lg leading-relaxed text-gray dark:text-gray-light">
             Có ý tưởng hay hoặc muốn hợp tác? Tôi luôn sẵn sàng lắng nghe
             những dự án thú vị. Hãy kết nối với tôi!
           </p>
 
           {/* Social Links */}
-          <div className="flex gap-4">
+          <motion.div
+            className="flex gap-4"
+            variants={staggerContainer}
+            initial="hidden"
+            whileInView="visible"
+            viewport={defaultViewport}
+          >
             {socialLinks.map((link) => (
-              <a
+              <motion.a
                 key={link.name}
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="magnetic group cursor-pointer flex h-14 w-14 items-center justify-center rounded-2xl border border-navy/10 bg-white text-navy transition-all duration-300 hover:-translate-y-1 hover:border-peach/50 hover:bg-peach/5 hover:text-peach hover:shadow-lg dark:border-white/10 dark:bg-dark-card dark:text-white dark:hover:border-peach/50 dark:hover:text-peach"
+                className="cursor-pointer flex h-14 w-14 items-center justify-center rounded-2xl border border-navy/10 bg-white text-navy dark:border-white/10 dark:bg-dark-card dark:text-white"
                 aria-label={link.name}
+                variants={scaleIn}
+                whileHover={{
+                  y: -4,
+                  scale: 1.1,
+                  borderColor: "rgba(255, 176, 156, 0.5)",
+                  boxShadow: "0 10px 30px -5px rgba(0,0,0,0.15)",
+                }}
+                whileTap={{ scale: 0.9 }}
               >
                 {iconMap[link.icon]}
-              </a>
+              </motion.a>
             ))}
-          </div>
+          </motion.div>
 
           {/* Email CTA */}
-          <a
+          <motion.a
             href="mailto:hello@thinhme.tech"
             className="mt-8 inline-flex cursor-pointer items-center gap-2 text-lg font-semibold text-navy transition-colors hover:text-peach dark:text-white dark:hover:text-peach"
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4, duration: 0.5 }}
+            whileHover={{ x: 5 }}
           >
             hello@thinhme.tech
-            <ArrowUpRight className="h-5 w-5 transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
-          </a>
-        </div>
+            <ArrowUpRight className="h-5 w-5" />
+          </motion.a>
+        </motion.div>
 
         {/* Right - Form */}
-        <form onSubmit={handleSubmit} className="reveal space-y-5">
-          <div className="relative">
+        <motion.form
+          onSubmit={handleSubmit}
+          className="space-y-5"
+          variants={fadeInRight}
+          initial="hidden"
+          whileInView="visible"
+          viewport={defaultViewport}
+        >
+          <motion.div
+            className="relative"
+            whileFocus={{ scale: 1.01 }}
+          >
             <input
               type="text"
               placeholder="Tên của bạn"
@@ -126,10 +162,15 @@ export default function Contact() {
               className="w-full rounded-xl border border-navy/10 bg-white px-5 py-4 text-sm text-navy outline-none transition-all duration-300 placeholder:text-gray-light focus:border-peach focus:shadow-lg focus:shadow-peach/10 dark:border-white/10 dark:bg-dark-card dark:text-white dark:placeholder:text-gray dark:focus:border-peach"
             />
             {focusedInput === "name" && (
-              <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-peach/50 via-lavender/50 to-mint/50 -z-10 blur-sm" />
+              <motion.div
+                className="absolute -inset-px rounded-xl bg-gradient-to-r from-peach/50 via-lavender/50 to-mint/50 -z-10 blur-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              />
             )}
-          </div>
-          <div className="relative">
+          </motion.div>
+          <motion.div className="relative">
             <input
               type="email"
               placeholder="Email của bạn"
@@ -143,10 +184,14 @@ export default function Contact() {
               className="w-full rounded-xl border border-navy/10 bg-white px-5 py-4 text-sm text-navy outline-none transition-all duration-300 placeholder:text-gray-light focus:border-lavender focus:shadow-lg focus:shadow-lavender/10 dark:border-white/10 dark:bg-dark-card dark:text-white dark:placeholder:text-gray dark:focus:border-lavender"
             />
             {focusedInput === "email" && (
-              <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-lavender/50 via-peach/50 to-mint/50 -z-10 blur-sm" />
+              <motion.div
+                className="absolute -inset-px rounded-xl bg-gradient-to-r from-lavender/50 via-peach/50 to-mint/50 -z-10 blur-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              />
             )}
-          </div>
-          <div className="relative">
+          </motion.div>
+          <motion.div className="relative">
             <textarea
               placeholder="Tin nhắn"
               value={formState.message}
@@ -160,18 +205,32 @@ export default function Contact() {
               className="w-full resize-none rounded-xl border border-navy/10 bg-white px-5 py-4 text-sm text-navy outline-none transition-all duration-300 placeholder:text-gray-light focus:border-mint focus:shadow-lg focus:shadow-mint/10 dark:border-white/10 dark:bg-dark-card dark:text-white dark:placeholder:text-gray dark:focus:border-mint"
             />
             {focusedInput === "message" && (
-              <div className="absolute -inset-px rounded-xl bg-gradient-to-r from-mint/50 via-peach/50 to-lavender/50 -z-10 blur-sm" />
+              <motion.div
+                className="absolute -inset-px rounded-xl bg-gradient-to-r from-mint/50 via-peach/50 to-lavender/50 -z-10 blur-sm"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+              />
             )}
-          </div>
-          <button
+          </motion.div>
+          <motion.button
             type="submit"
             disabled={sending}
-            className="group cursor-pointer relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-navy px-8 py-4 text-sm font-semibold text-white transition-all duration-300 hover:shadow-lg hover:shadow-peach/25 disabled:opacity-50 dark:bg-white dark:text-navy"
+            className="group cursor-pointer relative flex w-full items-center justify-center gap-2 overflow-hidden rounded-xl bg-navy px-8 py-4 text-sm font-semibold text-white disabled:opacity-50 dark:bg-white dark:text-navy"
+            whileHover={{
+              scale: 1.02,
+              boxShadow: "0 10px 30px -5px rgba(255, 176, 156, 0.4)",
+            }}
+            whileTap={{ scale: 0.98 }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-peach via-lavender to-mint opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
             <span className="relative z-10 flex items-center gap-2">
               {sending ? (
-                "Đang gửi..."
+                <motion.span
+                  animate={{ opacity: [1, 0.5, 1] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                >
+                  Đang gửi...
+                </motion.span>
               ) : (
                 <>
                   Gửi tin nhắn
@@ -179,8 +238,8 @@ export default function Contact() {
                 </>
               )}
             </span>
-          </button>
-        </form>
+          </motion.button>
+        </motion.form>
       </div>
     </section>
   );

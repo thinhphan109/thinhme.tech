@@ -1,94 +1,123 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useState, useCallback } from "react";
+import { motion, useMotionValue, useSpring } from "framer-motion";
 
 export default function CustomCursor() {
-  const cursorRef = useRef<HTMLDivElement>(null);
-  const trailRef = useRef<HTMLDivElement>(null);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isClicking, setIsClicking] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+
+  const cursorX = useMotionValue(-100);
+  const cursorY = useMotionValue(-100);
+  const springX = useSpring(cursorX, { stiffness: 300, damping: 28 });
+  const springY = useSpring(cursorY, { stiffness: 300, damping: 28 });
+
+  const dotX = useMotionValue(-100);
+  const dotY = useMotionValue(-100);
+
+  const handleMouseMove = useCallback(
+    (e: MouseEvent) => {
+      cursorX.set(e.clientX - 16);
+      cursorY.set(e.clientY - 16);
+      dotX.set(e.clientX - 4);
+      dotY.set(e.clientY - 4);
+      if (!isVisible) setIsVisible(true);
+    },
+    [cursorX, cursorY, dotX, dotY, isVisible]
+  );
 
   useEffect(() => {
-    const cursor = cursorRef.current;
-    const trail = trailRef.current;
-    if (!cursor || !trail) return;
+    // Check if touch device
+    if ("ontouchstart" in window) return;
 
-    let mouseX = 0;
-    let mouseY = 0;
-    let trailX = 0;
-    let trailY = 0;
+    const handleMouseDown = () => setIsClicking(true);
+    const handleMouseUp = () => setIsClicking(false);
 
-    const handleMove = (e: MouseEvent) => {
-      mouseX = e.clientX;
-      mouseY = e.clientY;
-      cursor.style.transform = `translate(${mouseX - 6}px, ${mouseY - 6}px)`;
+    const handleMouseEnter = (e: Event) => {
+      const target = e.target as HTMLElement;
+      if (
+        target.closest("a") ||
+        target.closest("button") ||
+        target.closest("[role='button']") ||
+        target.closest("input") ||
+        target.closest("textarea") ||
+        target.closest(".cursor-pointer")
+      ) {
+        setIsHovering(true);
+      }
     };
 
-    const animate = () => {
-      trailX += (mouseX - trailX) * 0.15;
-      trailY += (mouseY - trailY) * 0.15;
-      trail.style.transform = `translate(${trailX - 20}px, ${trailY - 20}px)`;
-      requestAnimationFrame(animate);
-    };
+    const handleMouseLeave = () => setIsHovering(false);
 
-    const handleEnterInteractive = () => {
-      cursor.classList.add("cursor-hover");
-      trail.classList.add("trail-hover");
-    };
+    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousedown", handleMouseDown);
+    window.addEventListener("mouseup", handleMouseUp);
 
-    const handleLeaveInteractive = () => {
-      cursor.classList.remove("cursor-hover");
-      trail.classList.remove("trail-hover");
-    };
-
-    window.addEventListener("mousemove", handleMove);
-    animate();
-
-    // Add hover detection on interactive elements
-    const interactives = document.querySelectorAll("a, button, input, textarea, .project-card, .magnetic");
-    interactives.forEach((el) => {
-      el.addEventListener("mouseenter", handleEnterInteractive);
-      el.addEventListener("mouseleave", handleLeaveInteractive);
-    });
+    // Delegate hover events for interactive elements
+    document.addEventListener("mouseover", handleMouseEnter);
+    document.addEventListener("mouseout", handleMouseLeave);
 
     return () => {
-      window.removeEventListener("mousemove", handleMove);
-      interactives.forEach((el) => {
-        el.removeEventListener("mouseenter", handleEnterInteractive);
-        el.removeEventListener("mouseleave", handleLeaveInteractive);
-      });
+      window.removeEventListener("mousemove", handleMouseMove);
+      window.removeEventListener("mousedown", handleMouseDown);
+      window.removeEventListener("mouseup", handleMouseUp);
+      document.removeEventListener("mouseover", handleMouseEnter);
+      document.removeEventListener("mouseout", handleMouseLeave);
     };
-  }, []);
+  }, [handleMouseMove]);
+
+  // Don't render on touch devices
+  if (typeof window !== "undefined" && "ontouchstart" in window) return null;
 
   return (
     <>
-      {/* Small dot */}
-      <div
-        ref={cursorRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9999] hidden h-3 w-3 rounded-full bg-peach mix-blend-difference transition-[width,height] duration-200 md:block"
-        style={{ willChange: "transform" }}
-      />
-      {/* Trailing ring */}
-      <div
-        ref={trailRef}
-        className="pointer-events-none fixed top-0 left-0 z-[9998] hidden h-10 w-10 rounded-full border-2 border-peach/40 mix-blend-difference transition-[width,height,border-color] duration-300 md:block"
-        style={{ willChange: "transform" }}
-      />
+      {/* Outer ring — follows with spring delay */}
+      <motion.div
+        className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block"
+        style={{
+          x: springX,
+          y: springY,
+          width: 32,
+          height: 32,
+        }}
+      >
+        <motion.div
+          className="h-full w-full rounded-full border-2 border-peach/60"
+          animate={{
+            scale: isHovering ? 1.8 : isClicking ? 0.8 : 1,
+            borderColor: isHovering
+              ? "rgba(196, 181, 253, 0.8)"
+              : "rgba(255, 176, 156, 0.6)",
+            backgroundColor: isHovering
+              ? "rgba(196, 181, 253, 0.08)"
+              : "transparent",
+          }}
+          transition={{ duration: 0.2 }}
+          style={{
+            opacity: isVisible ? 1 : 0,
+            mixBlendMode: "difference",
+          }}
+        />
+      </motion.div>
 
-      <style jsx global>{`
-        @media (min-width: 768px) {
-          * { cursor: none !important; }
-        }
-        .cursor-hover {
-          width: 0px !important;
-          height: 0px !important;
-        }
-        .trail-hover {
-          width: 60px !important;
-          height: 60px !important;
-          border-color: rgba(196, 181, 253, 0.6) !important;
-          margin-left: -10px;
-          margin-top: -10px;
-        }
-      `}</style>
+      {/* Inner dot — follows immediately */}
+      <motion.div
+        className="pointer-events-none fixed top-0 left-0 z-[9999] hidden md:block"
+        style={{
+          x: dotX,
+          y: dotY,
+        }}
+      >
+        <motion.div
+          className="h-2 w-2 rounded-full bg-peach"
+          animate={{
+            scale: isClicking ? 0.5 : 1,
+          }}
+          transition={{ duration: 0.15 }}
+          style={{ opacity: isVisible ? 1 : 0 }}
+        />
+      </motion.div>
     </>
   );
 }

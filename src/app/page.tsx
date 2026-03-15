@@ -9,6 +9,8 @@ import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import CustomCursor from "@/components/CustomCursor";
 import PageLoader from "@/components/PageLoader";
+import WaveDivider from "@/components/WaveDivider";
+import BackToTop from "@/components/BackToTop";
 
 export default function Home() {
   return (
@@ -16,13 +18,18 @@ export default function Home() {
       <PageLoader />
       <CustomCursor />
       <ScrollProgress />
+      <BackToTop />
       <Navbar />
       <main>
         <Hero />
+        <WaveDivider />
         <About />
         <Stats />
+        <WaveDivider className="opacity-50" />
         <Skills />
+        <WaveDivider />
         <Projects />
+        <WaveDivider className="opacity-50" />
         <Contact />
       </main>
       <Footer />
