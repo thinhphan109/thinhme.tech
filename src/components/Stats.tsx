@@ -1,23 +1,15 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { Code2, GitBranch, Coffee, Zap } from "lucide-react";
+import { useEffect, useState, useRef } from "react";
+import { Code2, GitBranch, Coffee, Zap, Eye } from "lucide-react";
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
-
-const stats = [
-  { icon: <Coffee className="h-6 w-6" />, value: 5, suffix: "+", label: "Years Experience", color: "text-peach" },
-  { icon: <GitBranch className="h-6 w-6" />, value: 9, suffix: "", label: "Public Repos", color: "text-lavender" },
-  { icon: <Code2 className="h-6 w-6" />, value: 1000, suffix: "+", label: "Contributions", color: "text-mint" },
-  { icon: <Zap className="h-6 w-6" />, value: 6, suffix: "+", label: "Tech Stacks", color: "text-peach" },
-];
 
 function AnimatedNumber({ target, suffix, animated }: { target: number; suffix: string; animated: boolean }) {
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    if (!animated) return;
+    if (!animated || target === 0) return;
     let start = 0;
     const duration = 2000;
     const steps = 60;
@@ -38,13 +30,53 @@ function AnimatedNumber({ target, suffix, animated }: { target: number; suffix: 
   }, [animated, target]);
 
   return (
-    <span className="tabular-nums">{animated ? count : 0}{suffix}</span>
+    <span className="tabular-nums">{animated ? count.toLocaleString() : "0"}{suffix}</span>
   );
 }
 
 export default function Stats() {
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
+  const [visitorCount, setVisitorCount] = useState(0);
+  const [visitorLoading, setVisitorLoading] = useState(true);
+
+  // Cloudflare Visitor Counter — chỉ đếm 1 lần/session
+  useEffect(() => {
+    const fetchVisitorCount = async () => {
+      try {
+        const alreadyCounted = sessionStorage.getItem("visitor_counted");
+
+        const response = await fetch("https://thinhphan.io.vn/api/visitor/simple", {
+          method: alreadyCounted ? "GET" : "POST",
+          headers: { "Content-Type": "application/json" },
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          setVisitorCount(data.count || 0);
+          sessionStorage.setItem("visitor_counted", "true");
+          sessionStorage.setItem("visitor_count_cache", String(data.count));
+        } else {
+          throw new Error("API failed");
+        }
+      } catch {
+        // Fallback: dùng cache hoặc 0
+        const cached = sessionStorage.getItem("visitor_count_cache");
+        setVisitorCount(cached ? parseInt(cached) : 0);
+      } finally {
+        setVisitorLoading(false);
+      }
+    };
+
+    fetchVisitorCount();
+  }, []);
+
+  const stats = [
+    { icon: <Coffee className="h-6 w-6" />, value: 5, suffix: "+", label: "Years Experience", color: "text-peach" },
+    { icon: <GitBranch className="h-6 w-6" />, value: 9, suffix: "", label: "Public Repos", color: "text-lavender" },
+    { icon: <Code2 className="h-6 w-6" />, value: 1000, suffix: "+", label: "Contributions", color: "text-mint" },
+    { icon: <Eye className="h-6 w-6" />, value: visitorCount, suffix: "", label: "Visitors", color: "text-peach", loading: visitorLoading },
+  ];
 
   return (
     <motion.section
@@ -61,6 +93,7 @@ export default function Stats() {
         className="pointer-events-none absolute left-1/2 top-0 h-[300px] w-[600px] -translate-x-1/2 rounded-full bg-lavender/10 blur-[100px] dark:bg-lavender/5"
         style={{ animation: "blob-float 15s ease-in-out infinite" }}
       />
+
       <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
         {stats.map((stat, i) => (
           <motion.div
@@ -80,12 +113,20 @@ export default function Stats() {
             >
               {stat.icon}
             </motion.div>
-            <p
+            <div
               className="text-3xl font-extrabold text-navy dark:text-white md:text-4xl"
               style={{ fontFamily: "var(--font-syne)" }}
             >
-              <AnimatedNumber target={stat.value} suffix={stat.suffix} animated={isInView} />
-            </p>
+              {'loading' in stat && stat.loading ? (
+                <motion.span
+                  className="inline-block h-8 w-16 rounded-lg bg-navy/5 dark:bg-white/5"
+                  animate={{ opacity: [0.5, 1, 0.5] }}
+                  transition={{ duration: 1.5, repeat: Infinity }}
+                />
+              ) : (
+                <AnimatedNumber target={stat.value} suffix={stat.suffix} animated={isInView} />
+              )}
+            </div>
             <p className="text-xs font-medium text-gray dark:text-gray-light">{stat.label}</p>
           </motion.div>
         ))}

@@ -50,7 +50,7 @@ export default function CustomCursor() {
 
     const handleMouseLeave = () => setIsHovering(false);
 
-    window.addEventListener("mousemove", handleMouseMove);
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
 
@@ -80,6 +80,7 @@ export default function CustomCursor() {
           y: springY,
           width: 32,
           height: 32,
+          willChange: "transform",
         }}
       >
         <motion.div
@@ -107,6 +108,7 @@ export default function CustomCursor() {
         style={{
           x: dotX,
           y: dotY,
+          willChange: "transform",
         }}
       >
         <motion.div

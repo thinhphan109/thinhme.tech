@@ -65,20 +65,20 @@ export default function Hero() {
     >
       {/* Animated Floating Blobs — Parallax */}
       <motion.div
-        className="pointer-events-none absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-peach/30 blur-[120px] dark:bg-peach/15"
-        style={{ y: blob1Y, animation: "blob-float 12s ease-in-out infinite" }}
+        className="pointer-events-none absolute -top-40 -left-40 h-[600px] w-[600px] rounded-full bg-peach/30 blur-[80px] dark:bg-peach/15"
+        style={{ y: blob1Y, willChange: "transform", animation: "blob-float 12s ease-in-out infinite" }}
       />
       <motion.div
-        className="pointer-events-none absolute top-20 -right-32 h-[500px] w-[500px] rounded-full bg-lavender/30 blur-[100px] dark:bg-lavender/15"
-        style={{ y: blob2Y, animation: "blob-float-reverse 15s ease-in-out infinite" }}
+        className="pointer-events-none absolute top-20 -right-32 h-[500px] w-[500px] rounded-full bg-lavender/30 blur-[70px] dark:bg-lavender/15"
+        style={{ y: blob2Y, willChange: "transform", animation: "blob-float-reverse 15s ease-in-out infinite" }}
       />
       <motion.div
-        className="pointer-events-none absolute -bottom-20 left-1/3 h-[400px] w-[400px] rounded-full bg-mint/20 blur-[100px] dark:bg-mint/10"
-        style={{ y: blob3Y, animation: "blob-float 18s ease-in-out infinite 2s" }}
+        className="pointer-events-none absolute -bottom-20 left-1/3 h-[400px] w-[400px] rounded-full bg-mint/20 blur-[70px] dark:bg-mint/10"
+        style={{ y: blob3Y, willChange: "transform", animation: "blob-float 18s ease-in-out infinite 2s" }}
       />
       <motion.div
-        className="pointer-events-none absolute top-1/2 right-1/4 h-[300px] w-[300px] rounded-full bg-lavender/15 blur-[80px] dark:bg-peach/10"
-        style={{ y: blob1Y, animation: "blob-float-reverse 20s ease-in-out infinite 4s" }}
+        className="pointer-events-none absolute top-1/2 right-1/4 h-[300px] w-[300px] rounded-full bg-lavender/15 blur-[60px] dark:bg-peach/10"
+        style={{ y: blob1Y, willChange: "transform", animation: "blob-float-reverse 20s ease-in-out infinite 4s" }}
       />
 
       {/* Grid pattern overlay */}
@@ -93,7 +93,7 @@ export default function Hero() {
         variants={staggerContainer}
         initial="hidden"
         animate="visible"
-        style={{ y: nameY, scale: nameScale, opacity: nameOpacity }}
+        style={{ y: nameY, scale: nameScale, opacity: nameOpacity, willChange: "transform, opacity" }}
       >
         {/* Small tag */}
         <motion.p

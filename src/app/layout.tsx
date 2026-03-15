@@ -23,9 +23,44 @@ const jetbrains = JetBrains_Mono({
 export const metadata: Metadata = {
   title: "Thinh Phan — Developer & Creator",
   description:
-    "Personal portfolio of Thinh Phan. Full-stack developer, creative technologist, and builder of digital experiences.",
-  keywords: ["portfolio", "developer", "thinhme.tech", "Thinh Phan", "full-stack"],
-  authors: [{ name: "Thinh Phan" }],
+    "Personal portfolio of Thinh Phan — Electronics & Telecommunications student, automation enthusiast, and builder of digital experiences. Explore projects, skills, and more.",
+  keywords: [
+    "Thinh Phan", "thinhme.tech", "portfolio", "developer",
+    "automation", "IoT", "electronics", "Next.js", "TypeScript",
+  ],
+  authors: [{ name: "Thinh Phan", url: "https://thinhme.tech" }],
+  creator: "Thinh Phan",
+  metadataBase: new URL("https://thinhme.tech"),
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: "https://thinhme.tech",
+    siteName: "Thinh Phan — Portfolio",
+    title: "Thinh Phan — Developer & Creator",
+    description: "Electronics student, automation enthusiast, and builder. Explore my projects and skills.",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Thinh Phan — Developer & Creator",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Thinh Phan — Developer & Creator",
+    description: "Electronics student, automation enthusiast, and builder.",
+    images: ["/og-image.png"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
+  icons: {
+    icon: "/logoTP.png",
+    apple: "/logoTP.png",
+  },
 };
 
 export default function RootLayout({

@@ -91,13 +91,13 @@ export const experiences = [
     description: "Phát triển Minecraft plugin với AI, xây dựng desktop apps và hệ thống monitoring.",
   },
   {
-    year: "2024 — 2025",
+    year: "2024 — Now",
     role: "Tech Tinkerer & Automation",
     company: "Freelance",
-    description: "Xây dựng tools tự động hoá (GitHub Actions, bots), Nova Video Studio, PM2 Monitor Dashboard.",
+    description: "Xây dựng tools tự động hoá (GitHub Actions, bots), Nova Video Studio, PM2 Monitor Dashboard, v.v.",
   },
   {
-    year: "2022 — Now",
+    year: "2024 — Now",
     role: "Sinh viên Điện tử Viễn thông",
     company: "Đại học",
     description: "Học về mạch điện tử, vi xử lý, IoT, robotics. Tham gia cuộc thi RobotGladiator — Khoa Điện.",
