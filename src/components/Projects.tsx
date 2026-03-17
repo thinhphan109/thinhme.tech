@@ -106,24 +106,37 @@ function TiltProjectCard({
         className={`relative overflow-hidden ${project.featured ? "h-72 md:h-full" : "h-56"
           }`}
       >
-        <div
-          className={`h-full w-full transition-all duration-700 ${index % 4 === 0
-              ? "bg-gradient-to-br from-peach/40 via-lavender/30 to-mint/20 dark:from-peach/20 dark:via-lavender/15 dark:to-mint/10"
-              : index % 4 === 1
-                ? "bg-gradient-to-br from-lavender/40 via-mint/30 to-peach/20 dark:from-lavender/20 dark:via-mint/15 dark:to-peach/10"
-                : index % 4 === 2
-                  ? "bg-gradient-to-br from-mint/40 via-peach/30 to-lavender/20 dark:from-mint/20 dark:via-peach/15 dark:to-lavender/10"
-                  : "bg-gradient-to-br from-peach/30 via-mint/40 to-lavender/20 dark:from-peach/15 dark:via-mint/20 dark:to-lavender/10"
-            }`}
-        >
-          <div className="flex h-full flex-col items-center justify-center gap-3">
+        <div className="h-full w-full relative group-hover:scale-110 transition-transform duration-700 ease-out">
+          {project.image ? (
+            <>
+              <img
+                src={project.image}
+                alt={t(`proj.${project.id}.title`)}
+                className="h-full w-full object-cover"
+              />
+              <div className="absolute inset-0 bg-navy/10 dark:bg-black/20" />
+            </>
+          ) : (
+            <div
+              className={`h-full w-full ${index % 4 === 0
+                  ? "bg-gradient-to-br from-peach/40 via-lavender/30 to-mint/20 dark:from-peach/20 dark:via-lavender/15 dark:to-mint/10"
+                  : index % 4 === 1
+                    ? "bg-gradient-to-br from-lavender/40 via-mint/30 to-peach/20 dark:from-lavender/20 dark:via-mint/15 dark:to-peach/10"
+                    : index % 4 === 2
+                      ? "bg-gradient-to-br from-mint/40 via-peach/30 to-lavender/20 dark:from-mint/20 dark:via-peach/15 dark:to-lavender/10"
+                      : "bg-gradient-to-br from-peach/30 via-mint/40 to-lavender/20 dark:from-peach/15 dark:via-mint/20 dark:to-lavender/10"
+                }`}
+            />
+          )}
+
+          <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 bg-black/0 transition-colors group-hover:bg-black/20">
             <motion.span
-              className="text-[5rem] font-extrabold leading-none text-navy/8 dark:text-white/8"
+              className="text-[5rem] font-extrabold leading-none text-navy/10 dark:text-white/10 drop-shadow-sm"
               style={{ fontFamily: "var(--font-syne)", transform: "translateZ(30px)" }}
             >
               {String(index + 1).padStart(2, "0")}
             </motion.span>
-            <div className="flex items-center gap-2 rounded-full bg-white/60 px-3 py-1 backdrop-blur-sm dark:bg-dark-bg/60">
+            <div className="flex items-center gap-2 rounded-full bg-white/70 px-3 py-1 backdrop-blur-md dark:bg-dark-bg/70 shadow-sm">
               <span className={`h-2.5 w-2.5 rounded-full ${langColors[project.language] || "bg-gray"}`} />
               <span className="text-xs font-medium text-navy dark:text-white">{project.language}</span>
             </div>
