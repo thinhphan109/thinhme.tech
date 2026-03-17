@@ -3,8 +3,10 @@
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { Home, ArrowLeft, Terminal } from "lucide-react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function NotFound() {
+  const { t } = useLanguage();
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden bg-cream dark:bg-dark-bg">
       {/* Background blobs */}
@@ -54,7 +56,7 @@ export default function NotFound() {
             Error: No such file or directory
           </p>
           <p className="text-[#8B949E] mt-1">
-            The page you&apos;re looking for has been moved, deleted, or never existed.
+            {t("404.description")}
           </p>
         </motion.div>
 
@@ -70,14 +72,14 @@ export default function NotFound() {
             className="group flex items-center gap-2 rounded-full bg-gradient-to-r from-peach to-lavender px-6 py-3 text-sm font-semibold text-navy shadow-lg transition-all hover:shadow-xl hover:scale-105"
           >
             <Home className="h-4 w-4" />
-            Go Home
+            {t("404.home")}
           </Link>
           <button
             onClick={() => window.history.back()}
             className="flex items-center gap-2 rounded-full border border-navy/10 bg-white px-6 py-3 text-sm font-semibold text-navy transition-all hover:bg-navy/5 dark:border-white/10 dark:bg-dark-card dark:text-white dark:hover:bg-white/10 cursor-pointer"
           >
             <ArrowLeft className="h-4 w-4" />
-            Go Back
+            {t("404.back")}
           </button>
         </motion.div>
 
@@ -88,8 +90,7 @@ export default function NotFound() {
           animate={{ opacity: 1 }}
           transition={{ delay: 0.8 }}
         >
-          Fun fact: The HTTP 404 status code was named after room 404 at CERN,
-          where the original web servers were located. 🧪
+          {t("404.funfact")}
         </motion.p>
       </div>
     </div>

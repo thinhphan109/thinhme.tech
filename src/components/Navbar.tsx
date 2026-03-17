@@ -3,13 +3,16 @@
 import { useState, useEffect } from "react";
 import { Menu, X, Sun, Moon } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import AccentPicker from "./AccentPicker";
+import LanguageToggle from "./LanguageToggle";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const navItems = [
-  { label: "Home", href: "#hero" },
-  { label: "About", href: "#about" },
-  { label: "Skills", href: "#skills" },
-  { label: "Projects", href: "#projects" },
-  { label: "Contact", href: "#contact" },
+  { key: "nav.home", href: "#hero" },
+  { key: "nav.about", href: "#about" },
+  { key: "nav.skills", href: "#skills" },
+  { key: "nav.projects", href: "#projects" },
+  { key: "nav.contact", href: "#contact" },
 ];
 
 const navLinkVariants = {
@@ -42,6 +45,7 @@ export default function Navbar() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [dark, setDark] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const { t } = useLanguage();
 
   useEffect(() => {
     setMounted(true);
@@ -115,7 +119,7 @@ export default function Navbar() {
                   animate="visible"
                   whileHover={{ y: -2 }}
                 >
-                  {item.label}
+                  {t(item.key)}
                   <motion.span
                     className="absolute -bottom-1 left-0 h-[2px] bg-peach"
                     initial={{ width: 0 }}
@@ -164,6 +168,12 @@ export default function Navbar() {
                 </AnimatePresence>
               </motion.button>
 
+              {/* Accent Color Picker */}
+              <AccentPicker />
+
+              {/* Language Toggle */}
+              <LanguageToggle />
+
               {/* Mobile toggle */}
               <motion.button
                 onClick={() => setMobileOpen(!mobileOpen)}
@@ -199,7 +209,7 @@ export default function Navbar() {
                 whileHover={{ scale: 1.1, x: 10 }}
                 whileTap={{ scale: 0.95 }}
               >
-                {item.label}
+                {t(item.key)}
               </motion.a>
             ))}
           </motion.div>

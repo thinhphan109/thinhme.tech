@@ -3,8 +3,10 @@
 import { Heart } from "lucide-react";
 import { motion } from "framer-motion";
 import { fadeInUp, defaultViewport } from "@/lib/animations";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <motion.footer
       className="border-t border-navy/5 px-6 py-10 dark:border-white/5"
@@ -26,15 +28,15 @@ export default function Footer() {
         </motion.a>
 
         {/* Center */}
-        <p className="flex items-center gap-1.5 text-xs text-gray dark:text-gray-light">
-          Built with{" "}
+        <p className="flex items-center gap-1.5 text-xs text-gray dark:text-gray-light text-center md:text-left">
+          {t("footer.builtWith")}{" "}
           <motion.span
             animate={{ scale: [1, 1.2, 1] }}
             transition={{ duration: 1.5, repeat: Infinity, repeatDelay: 2 }}
           >
             <Heart className="h-3 w-3 text-peach" fill="currentColor" />
           </motion.span>{" "}
-          using Next.js & TailwindCSS
+          {t("footer.using")}
         </p>
 
         {/* Copyright */}

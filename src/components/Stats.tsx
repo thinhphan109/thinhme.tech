@@ -4,6 +4,7 @@ import { useEffect, useState, useRef } from "react";
 import { Code2, GitBranch, Coffee, Zap, Eye } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 function AnimatedNumber({ target, suffix, animated }: { target: number; suffix: string; animated: boolean }) {
   const [count, setCount] = useState(0);
@@ -35,6 +36,7 @@ function AnimatedNumber({ target, suffix, animated }: { target: number; suffix: 
 }
 
 export default function Stats() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
   const [visitorCount, setVisitorCount] = useState(0);
@@ -72,10 +74,10 @@ export default function Stats() {
   }, []);
 
   const stats = [
-    { icon: <Coffee className="h-6 w-6" />, value: 5, suffix: "+", label: "Years Experience", color: "text-peach" },
-    { icon: <GitBranch className="h-6 w-6" />, value: 9, suffix: "", label: "Public Repos", color: "text-lavender" },
-    { icon: <Code2 className="h-6 w-6" />, value: 1000, suffix: "+", label: "Contributions", color: "text-mint" },
-    { icon: <Eye className="h-6 w-6" />, value: visitorCount, suffix: "", label: "Visitors", color: "text-peach", loading: visitorLoading },
+    { icon: <Coffee className="h-6 w-6" />, value: 5, suffix: "+", label: t("stats.experience"), color: "text-peach" },
+    { icon: <GitBranch className="h-6 w-6" />, value: 9, suffix: "", label: t("stats.repos"), color: "text-lavender" },
+    { icon: <Code2 className="h-6 w-6" />, value: 1000, suffix: "+", label: t("stats.contributions"), color: "text-mint" },
+    { icon: <Eye className="h-6 w-6" />, value: visitorCount, suffix: "", label: t("stats.visitors"), color: "text-peach", loading: visitorLoading },
   ];
 
   return (

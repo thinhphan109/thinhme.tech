@@ -4,6 +4,7 @@ import { personalInfo, experiences } from "@/lib/data";
 import { MapPin, Briefcase, Calendar, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   fadeInUp,
   fadeInLeft,
@@ -15,6 +16,7 @@ import {
 } from "@/lib/animations";
 
 export default function About() {
+  const { t } = useLanguage();
   const [activeExp, setActiveExp] = useState(0);
   const timelineRef = useRef<HTMLDivElement>(null);
 
@@ -50,13 +52,13 @@ export default function About() {
           className="mb-2 text-xs tracking-[0.3em] uppercase text-peach"
           style={{ fontFamily: "var(--font-jetbrains)" }}
         >
-          01 — About
+          {t("about.label")}
         </p>
         <h2
           className="text-4xl font-bold text-navy md:text-5xl dark:text-white"
           style={{ fontFamily: "var(--font-syne)" }}
         >
-          About Me
+          {t("about.title")}
         </h2>
       </motion.div>
 
@@ -101,7 +103,7 @@ export default function About() {
                 style={{ animation: "pulse-dot 2s ease-in-out infinite" }}
               />
               <span className="text-xs font-medium text-navy dark:text-white">
-                Available for work
+                {t("about.available")}
               </span>
             </motion.div>
           </div>
@@ -118,14 +120,14 @@ export default function About() {
               variants={scaleIn}
             >
               <MapPin className="h-4 w-4 text-peach" />
-              <span className="text-sm text-navy dark:text-white">{personalInfo.location}</span>
+              <span className="text-sm text-navy dark:text-white">{t("about.location")}</span>
             </motion.div>
             <motion.div
               className="flex items-center gap-2 rounded-full border border-navy/5 bg-white/60 backdrop-blur-sm px-4 py-2 dark:border-white/10 dark:bg-dark-card/60"
               variants={scaleIn}
             >
               <Briefcase className="h-4 w-4 text-lavender" />
-              <span className="text-sm text-navy dark:text-white">{personalInfo.role}</span>
+              <span className="text-sm text-navy dark:text-white">{t("hero.role")}</span>
             </motion.div>
           </motion.div>
         </motion.div>
@@ -142,7 +144,7 @@ export default function About() {
               className="mb-8 text-lg leading-relaxed text-gray dark:text-gray-light"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              {personalInfo.bio}
+              {t("about.bio")}
             </p>
           </motion.div>
 
@@ -204,7 +206,7 @@ export default function About() {
                           </p>
                         </div>
                         <h3 className="text-sm font-semibold text-navy dark:text-white">
-                          {exp.role}
+                          {t(`exp.${i}.role`)}
                         </h3>
                         <p className="text-xs text-lavender">{exp.company}</p>
                         <AnimatePresence>
@@ -216,7 +218,7 @@ export default function About() {
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.3 }}
                             >
-                              {exp.description}
+                              {t(`exp.${i}.desc`)}
                             </motion.p>
                           )}
                         </AnimatePresence>

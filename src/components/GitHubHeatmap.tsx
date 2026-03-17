@@ -2,6 +2,7 @@
 
 import { motion, useInView } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 interface ContributionDay {
   date: string;
@@ -25,6 +26,7 @@ const LEVEL_COLORS = [
 const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
 export default function GitHubHeatmap() {
+  const { t } = useLanguage();
   const [data, setData] = useState<ContributionDay[]>([]);
   const [total, setTotal] = useState(0);
   const [view, setView] = useState<"flat" | "3d">("flat");
@@ -126,10 +128,10 @@ export default function GitHubHeatmap() {
           </div>
           <div>
             <p className="text-sm font-semibold text-navy dark:text-white" style={{ fontFamily: "var(--font-syne)" }}>
-              GitHub Activity
+              {t("heatmap.title")}
             </p>
             <p className="text-xs text-gray dark:text-gray-light">
-              {loading ? "Loading..." : `${total.toLocaleString()} contributions in the last year`}
+              {loading ? "Loading..." : `${total.toLocaleString()} ${t("heatmap.contributions")} last year`}
             </p>
           </div>
         </div>
@@ -181,22 +183,22 @@ export default function GitHubHeatmap() {
             <p className="text-2xl font-extrabold text-navy dark:text-white" style={{ fontFamily: "var(--font-syne)" }}>
               {busiestDay.count}
             </p>
-            <p className="text-[10px] text-gray dark:text-gray-light">Busiest Day</p>
+            <p className="text-[10px] text-gray dark:text-gray-light">{t("heatmap.busiest")}</p>
             <p className="text-[9px] text-lavender">{formatDate(busiestDay.date)}</p>
           </div>
           <div className="rounded-xl border border-navy/5 bg-white p-3 text-center dark:border-white/5 dark:bg-dark-card">
             <p className="text-2xl font-extrabold text-navy dark:text-white" style={{ fontFamily: "var(--font-syne)" }}>
               {longestStreak}
             </p>
-            <p className="text-[10px] text-gray dark:text-gray-light">Longest Streak</p>
-            <p className="text-[9px] text-mint">days</p>
+            <p className="text-[10px] text-gray dark:text-gray-light">{t("heatmap.longest")}</p>
+            <p className="text-[9px] text-mint">{t("heatmap.days")}</p>
           </div>
           <div className="rounded-xl border border-navy/5 bg-white p-3 text-center dark:border-white/5 dark:bg-dark-card">
             <p className="text-2xl font-extrabold text-navy dark:text-white" style={{ fontFamily: "var(--font-syne)" }}>
               {currentStreak}
             </p>
-            <p className="text-[10px] text-gray dark:text-gray-light">Current Streak</p>
-            <p className="text-[9px] text-peach">days</p>
+            <p className="text-[10px] text-gray dark:text-gray-light">{t("heatmap.current")}</p>
+            <p className="text-[9px] text-peach">{t("heatmap.days")}</p>
           </div>
         </motion.div>
       )}
@@ -321,11 +323,11 @@ export default function GitHubHeatmap() {
 
         {/* Legend */}
         <div className="mt-3 flex items-center justify-end gap-2">
-          <span className="text-[10px] text-gray dark:text-gray-light">Less</span>
+          <span className="text-[10px] text-gray dark:text-gray-light">{t("heatmap.less")}</span>
           {[0, 1, 2, 3, 4].map((level) => (
             <div key={level} className={`h-[12px] w-[12px] rounded-[2px] ${LEVEL_COLORS[level].flat}`} />
           ))}
-          <span className="text-[10px] text-gray dark:text-gray-light">More</span>
+          <span className="text-[10px] text-gray dark:text-gray-light">{t("heatmap.more")}</span>
         </div>
       </motion.div>
     </div>

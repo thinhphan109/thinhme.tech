@@ -90,7 +90,7 @@ function OrbitRing({
                 className="h-4 w-4 object-contain transition-all group-hover:brightness-110 sm:h-5 sm:w-5"
                 loading="lazy"
               />
-              
+
               {/* Tooltip — hidden on mobile to prevent overflow */}
               <div className="pointer-events-none absolute -bottom-8 hidden whitespace-nowrap rounded-md bg-navy px-2 py-0.5 text-[10px] font-semibold text-white opacity-0 transition-opacity group-hover:opacity-100 dark:bg-white dark:text-navy sm:block">
                 {item.name}
@@ -126,7 +126,7 @@ export default function TechOrbit() {
         <div className="relative group z-10">
           {/* Colorful Aura */}
           <div className="absolute inset-0 -z-10 bg-gradient-to-r from-peach/30 via-lavender/30 to-mint/30 rounded-full blur-2xl opacity-60 group-hover:opacity-100 transition-opacity duration-1000" />
-          
+
           <div
             className="relative z-10 flex h-24 w-24 items-center justify-center rounded-[2.5rem] bg-gradient-to-br from-navy via-[#0D1117] to-navy/80 border border-white/10 shadow-2xl backdrop-blur-md"
             style={{ animation: "glow-pulse 4s ease-in-out infinite" }}

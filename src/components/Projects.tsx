@@ -4,6 +4,7 @@ import { projects } from "@/lib/data";
 import { ExternalLink, Github, Star } from "lucide-react";
 import { motion, useMotionValue, useSpring } from "framer-motion";
 import { useRef, MouseEvent } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   fadeInUp,
   sectionTitle,
@@ -40,6 +41,7 @@ function TiltProjectCard({
   project: (typeof projects)[0];
   index: number;
 }) {
+  const { t } = useLanguage();
   const cardRef = useRef<HTMLDivElement>(null);
   const mouseX = useMotionValue(0.5);
   const mouseY = useMotionValue(0.5);
@@ -68,9 +70,8 @@ function TiltProjectCard({
   return (
     <motion.div
       ref={cardRef}
-      className={`group relative overflow-hidden rounded-3xl border border-navy/5 bg-white dark:border-white/8 dark:bg-dark-card ${
-        project.featured ? "md:col-span-2 md:grid md:grid-cols-2" : ""
-      }`}
+      className={`group relative overflow-hidden rounded-3xl border border-navy/5 bg-white dark:border-white/8 dark:bg-dark-card ${project.featured ? "md:col-span-2 md:grid md:grid-cols-2" : ""
+        }`}
       custom={index}
       variants={cardVariants}
       initial="hidden"
@@ -102,20 +103,18 @@ function TiltProjectCard({
 
       {/* Image Area */}
       <div
-        className={`relative overflow-hidden ${
-          project.featured ? "h-72 md:h-full" : "h-56"
-        }`}
+        className={`relative overflow-hidden ${project.featured ? "h-72 md:h-full" : "h-56"
+          }`}
       >
         <div
-          className={`h-full w-full transition-all duration-700 ${
-            index % 4 === 0
+          className={`h-full w-full transition-all duration-700 ${index % 4 === 0
               ? "bg-gradient-to-br from-peach/40 via-lavender/30 to-mint/20 dark:from-peach/20 dark:via-lavender/15 dark:to-mint/10"
               : index % 4 === 1
-              ? "bg-gradient-to-br from-lavender/40 via-mint/30 to-peach/20 dark:from-lavender/20 dark:via-mint/15 dark:to-peach/10"
-              : index % 4 === 2
-              ? "bg-gradient-to-br from-mint/40 via-peach/30 to-lavender/20 dark:from-mint/20 dark:via-peach/15 dark:to-lavender/10"
-              : "bg-gradient-to-br from-peach/30 via-mint/40 to-lavender/20 dark:from-peach/15 dark:via-mint/20 dark:to-lavender/10"
-          }`}
+                ? "bg-gradient-to-br from-lavender/40 via-mint/30 to-peach/20 dark:from-lavender/20 dark:via-mint/15 dark:to-peach/10"
+                : index % 4 === 2
+                  ? "bg-gradient-to-br from-mint/40 via-peach/30 to-lavender/20 dark:from-mint/20 dark:via-peach/15 dark:to-lavender/10"
+                  : "bg-gradient-to-br from-peach/30 via-mint/40 to-lavender/20 dark:from-peach/15 dark:via-mint/20 dark:to-lavender/10"
+            }`}
         >
           <div className="flex h-full flex-col items-center justify-center gap-3">
             <motion.span
@@ -167,7 +166,7 @@ function TiltProjectCard({
             transition={{ delay: 0.5, type: "spring" }}
           >
             <Star className="h-3 w-3 text-peach" fill="currentColor" />
-            <span className="text-[10px] font-bold uppercase tracking-wider text-navy dark:text-white">Featured</span>
+            <span className="text-[10px] font-bold uppercase tracking-wider text-navy dark:text-white">{t("projects.featured")}</span>
           </motion.div>
         )}
       </div>
@@ -178,15 +177,15 @@ function TiltProjectCard({
           className="mb-2 text-xl font-bold text-navy dark:text-white"
           style={{ fontFamily: "var(--font-syne)" }}
         >
-          {project.title}
+          {t(`proj.${project.id}.title`)}
         </h3>
         <p className="mb-5 text-sm leading-relaxed text-gray dark:text-gray-light">
-          {project.description}
+          {t(`proj.${project.id}.desc`)}
         </p>
         <div className="flex flex-wrap gap-2">
-          {project.tech.map((t, techIdx) => (
+          {project.tech.map((techName, techIdx) => (
             <motion.span
-              key={t}
+              key={techName}
               className="rounded-full border border-navy/10 bg-cream-dark/50 px-3 py-1 text-[11px] font-semibold text-navy transition-colors hover:border-peach/50 hover:bg-peach/10 dark:border-white/10 dark:bg-dark-bg/50 dark:text-gray-light dark:hover:border-peach/50 dark:hover:text-peach"
               initial={{ opacity: 0, scale: 0.8 }}
               whileInView={{ opacity: 1, scale: 1 }}
@@ -194,7 +193,7 @@ function TiltProjectCard({
               transition={{ delay: 0.3 + techIdx * 0.05 }}
               whileHover={{ scale: 1.1 }}
             >
-              {t}
+              {techName}
             </motion.span>
           ))}
         </div>
@@ -204,6 +203,7 @@ function TiltProjectCard({
 }
 
 export default function Projects() {
+  const { t } = useLanguage();
   return (
     <section id="projects" className="relative mx-auto max-w-6xl px-6 py-32 overflow-hidden">
       {/* Background blobs */}
@@ -229,16 +229,16 @@ export default function Projects() {
           className="mb-2 text-xs tracking-[0.3em] uppercase text-mint"
           style={{ fontFamily: "var(--font-jetbrains)" }}
         >
-          03 — Projects
+          {t("projects.label")}
         </p>
         <h2
           className="text-4xl font-bold text-navy md:text-5xl dark:text-white"
           style={{ fontFamily: "var(--font-syne)" }}
         >
-          Selected Works
+          {t("projects.title")}
         </h2>
         <p className="mt-3 text-sm text-gray dark:text-gray-light">
-          Các dự án cá nhân từ GitHub — hover để xem thêm
+          {t("projects.desc")}
         </p>
       </motion.div>
 
@@ -266,7 +266,7 @@ export default function Projects() {
           whileTap={{ scale: 0.95 }}
         >
           <Github className="h-4 w-4" />
-          View All on GitHub
+          {t("projects.viewAll")}
           <span className="transition-transform duration-300 group-hover:translate-x-1">→</span>
         </motion.a>
       </motion.div>

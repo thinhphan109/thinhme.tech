@@ -10,10 +10,11 @@ import {
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useEffect, useRef, useState } from "react";
 import ParticleField from "./ParticleField";
-
-const roles = ["Automation Enthusiast", "Tech Tinkerer", "Electronics Student", "Builder"];
+import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Hero() {
+  const { t } = useLanguage();
+  const roles = t("hero.roles").split(",");
   const [roleIndex, setRoleIndex] = useState(0);
   const [displayed, setDisplayed] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
@@ -101,7 +102,7 @@ export default function Hero() {
           style={{ fontFamily: "var(--font-jetbrains)" }}
           variants={fadeInDown}
         >
-          {personalInfo.tagline}
+          {t("hero.tagline")}
         </motion.p>
 
         {/* Giant Name */}
@@ -151,7 +152,7 @@ export default function Hero() {
             whileTap={{ scale: 0.95 }}
           >
             <div className="absolute inset-0 bg-gradient-to-r from-peach to-lavender opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-            <span className="relative z-10 group-hover:text-navy">View My Work</span>
+            <span className="relative z-10 group-hover:text-navy">{t("hero.cta")}</span>
           </motion.a>
           <motion.a
             href="#contact"
@@ -159,7 +160,7 @@ export default function Hero() {
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
           >
-            Get In Touch
+            {t("hero.contact")}
           </motion.a>
         </motion.div>
       </motion.div>

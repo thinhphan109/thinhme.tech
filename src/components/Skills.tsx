@@ -3,6 +3,7 @@
 import { skills } from "@/lib/data";
 import { useRef, useState } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   fadeInUp,
   staggerContainer,
@@ -50,6 +51,7 @@ const skillCardVariants = {
 };
 
 export default function Skills() {
+  const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.15 });
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -92,16 +94,16 @@ export default function Skills() {
           className="mb-2 text-xs tracking-[0.3em] uppercase text-lavender"
           style={{ fontFamily: "var(--font-jetbrains)" }}
         >
-          02 — Skills
+          {t("skills.label")}
         </p>
         <h2
           className="text-4xl font-bold text-navy md:text-5xl dark:text-white"
           style={{ fontFamily: "var(--font-syne)" }}
         >
-          My Toolkit
+          {t("skills.title")}
         </h2>
         <p className="mt-3 text-sm text-gray dark:text-gray-light">
-          Hover hoặc tap vào từng skill để xem chi tiết
+          {t("skills.hover")}
         </p>
       </motion.div>
 
@@ -127,8 +129,12 @@ export default function Skills() {
             whileTap={{ scale: 0.95 }}
             layout
           >
-            {cat !== "All" && <span className="mr-1.5">{categoryIcon[cat]}</span>}
-            {cat}
+            {cat === "All" ? t("skills.all") : (
+              <>
+                <span className="mr-1.5">{categoryIcon[cat]}</span>
+                {t(`cat.${cat}`)}
+              </>
+            )}
           </motion.button>
         ))}
       </motion.div>
@@ -165,7 +171,7 @@ export default function Skills() {
                     categoryBg[skill.category]
                   }`}
                 >
-                  {skill.category}
+                  {t(`cat.${skill.category}`)}
                 </span>
               </div>
 
@@ -230,7 +236,7 @@ export default function Skills() {
           className="mb-4 text-center text-xs tracking-[0.3em] uppercase text-gray dark:text-gray-light"
           style={{ fontFamily: "var(--font-jetbrains)" }}
         >
-          Tech Universe
+          {t("skills.universe")}
         </p>
         <TechOrbit />
       </motion.div>

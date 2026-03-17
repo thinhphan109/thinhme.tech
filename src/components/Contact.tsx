@@ -4,6 +4,7 @@ import { socialLinks } from "@/lib/data";
 import { Github, Globe, Mail, Send, ArrowUpRight } from "lucide-react";
 import { motion } from "framer-motion";
 import { useState } from "react";
+import { useLanguage } from "@/contexts/LanguageContext";
 import {
   fadeInUp,
   fadeInLeft,
@@ -21,6 +22,7 @@ const iconMap: Record<string, React.ReactNode> = {
 };
 
 export default function Contact() {
+  const { t } = useLanguage();
   const [formState, setFormState] = useState({
     name: "",
     email: "",
@@ -68,13 +70,13 @@ export default function Contact() {
           className="mb-2 text-xs tracking-[0.3em] uppercase text-peach"
           style={{ fontFamily: "var(--font-jetbrains)" }}
         >
-          04 — Contact
+          {t("contact.label")}
         </p>
         <h2
           className="text-4xl font-bold text-navy md:text-5xl dark:text-white"
           style={{ fontFamily: "var(--font-syne)" }}
         >
-          Let&apos;s Connect
+          {t("contact.title")}
         </h2>
       </motion.div>
 
@@ -87,8 +89,7 @@ export default function Contact() {
           viewport={defaultViewport}
         >
           <p className="mb-8 text-lg leading-relaxed text-gray dark:text-gray-light">
-            Có ý tưởng hay hoặc muốn hợp tác? Tôi luôn sẵn sàng lắng nghe
-            những dự án thú vị. Hãy kết nối với tôi!
+            {t("contact.description")}
           </p>
 
           {/* Social Links */}
@@ -151,7 +152,7 @@ export default function Contact() {
           >
             <input
               type="text"
-              placeholder="Tên của bạn"
+              placeholder={t("contact.name")}
               value={formState.name}
               onChange={(e) =>
                 setFormState({ ...formState, name: e.target.value })
@@ -173,7 +174,7 @@ export default function Contact() {
           <motion.div className="relative">
             <input
               type="email"
-              placeholder="Email của bạn"
+              placeholder={t("contact.email")}
               value={formState.email}
               onChange={(e) =>
                 setFormState({ ...formState, email: e.target.value })
@@ -193,7 +194,7 @@ export default function Contact() {
           </motion.div>
           <motion.div className="relative">
             <textarea
-              placeholder="Tin nhắn"
+              placeholder={t("contact.message")}
               value={formState.message}
               onChange={(e) =>
                 setFormState({ ...formState, message: e.target.value })
@@ -229,11 +230,11 @@ export default function Contact() {
                   animate={{ opacity: [1, 0.5, 1] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 >
-                  Đang gửi...
+                  {t("contact.sending")}
                 </motion.span>
               ) : (
                 <>
-                  Gửi tin nhắn
+                  {t("contact.send")}
                   <Send className="h-4 w-4 transition-transform group-hover:translate-x-1 group-hover:-translate-y-0.5" />
                 </>
               )}

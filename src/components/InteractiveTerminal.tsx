@@ -2,96 +2,13 @@
 
 import { useState, useRef, useEffect, KeyboardEvent } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal as TerminalIcon, X, Minus, Square } from "lucide-react";
-import { personalInfo, skills } from "@/lib/data";
+import { Terminal as TerminalIcon, X } from "lucide-react";
+import { personalInfo, skills, projects } from "@/lib/data";
+import { triggerMatrixRain, triggerHackerMode } from "./EasterEggs";
+import { useLanguage } from "@/contexts/LanguageContext";
 
-const COMMANDS: Record<string, string | (() => string)> = {
-  help: `Available commands:
-  about      — Who am I?
-  skills     — My tech stack
-  projects   — My projects
-  contact    — How to reach me
-  socials    — Social links
-  education  — My education
-  echo       — Echo your text
-  clear      — Clear terminal
-  date       — Current date/time
-  whoami     — Current user
-  neofetch   — System info`,
+// Interactive terminal commands moved inside component to support i18n
 
-  about: () => `
-╔══════════════════════════════════════╗
-║  ${personalInfo.name} ${personalInfo.lastName}
-║  ${personalInfo.role}
-║  📍 ${personalInfo.location}
-╚══════════════════════════════════════╝
-
-${personalInfo.bio}`,
-
-  skills: () => {
-    const grouped: Record<string, string[]> = {};
-    skills.forEach((s) => {
-      if (!grouped[s.category]) grouped[s.category] = [];
-      grouped[s.category].push(`${s.name} (${"█".repeat(Math.round(s.level / 10))}${"░".repeat(10 - Math.round(s.level / 10))} ${s.level}%)`);
-    });
-    return Object.entries(grouped)
-      .map(([cat, items]) => `\n⚡ ${cat}\n${items.map((i) => `  → ${i}`).join("\n")}`)
-      .join("\n");
-  },
-
-  projects: `
-📁 PM2 Monitor Dashboard
-   Next.js • tRPC • TypeScript
-   Dashboard giám sát Node.js ecosystem
-
-📁 Nova Video Studio
-   Electron • Python • TypeScript
-   Desktop app all-in-one video tools
-
-📁 TurtleTop Minecraft Plugin
-   Java • Spigot API
-   Custom Minecraft server plugin
-
-📁 thinhme.tech (this site!)
-   Next.js • Framer Motion • TailwindCSS
-   Personal portfolio website`,
-
-  contact: `
-📧 Email: hello@thinhme.tech
-🌐 Web:   thinhme.tech
-🐙 GitHub: github.com/thinhphan109
-
-Feel free to reach out! 🚀`,
-
-  socials: `
-🐙 GitHub   → github.com/thinhphan109
-🌐 Website  → thinhme.tech`,
-
-  education: `
-🎓 Sinh viên Điện tử Viễn thông
-   Đại học (2024 — Now)
-   
-📚 Focus: Electronics, Telecommunications,
-   IoT, Automation`,
-
-  whoami: "visitor@thinhme.tech",
-
-  date: () => new Date().toLocaleString("vi-VN", { dateStyle: "full", timeStyle: "medium" }),
-
-  neofetch: () => `
-  ████████╗██████╗ 
-  ╚══██╔══╝██╔══██╗
-       ██║     ██████╔╝    thinh@thinhme.tech
-       ██║     ██╔═══╝     ─────────────────
-       ██║     ██║         OS: Next.js 16
-       ╚═╝     ╚═╝         Shell: TypeScript 5
-                          DE: Framer Motion
-    thinhme.tech          WM: TailwindCSS v4
-                          Theme: Navy Dark
-                          Terminal: Interactive v1.0
-                          Uptime: since 2020
-                          Packages: ${skills.length} skills loaded`,
-};
 
 interface Line {
   type: "input" | "output" | "error";
@@ -99,9 +16,68 @@ interface Line {
 }
 
 function TerminalContent({ onClose }: { onClose: () => void }) {
+  const { t, locale } = useLanguage();
+
+  const COMMANDS: Record<string, string | (() => string)> = {
+    help: () => t("terminal.help_content"),
+
+    about: () => `
+╔══════════════════════════════════════╗
+║  ${personalInfo.name} ${personalInfo.lastName}
+║  ${t("hero.role")}
+║  📍 ${t("about.location")}
+╚══════════════════════════════════════╝
+
+${t("about.bio")}`,
+
+    skills: () => {
+      const grouped: Record<string, string[]> = {};
+      skills.forEach((s) => {
+        const cat = t(`cat.${s.category}`);
+        if (!grouped[cat]) grouped[cat] = [];
+        grouped[cat].push(`${s.name} (${"█".repeat(Math.round(s.level / 10))}${"░".repeat(10 - Math.round(s.level / 10))} ${s.level}%)`);
+      });
+      return Object.entries(grouped)
+        .map(([cat, items]) => `\n⚡ ${cat}\n${items.map((i) => `  → ${i}`).join("\n")}`)
+        .join("\n");
+    },
+
+    projects: () => {
+      return projects.map(p => `
+📁 ${t(`proj.${p.id}.title`)}
+   ${p.tech.join(" • ")}
+   ${t(`proj.${p.id}.desc`)}`).join("\n");
+    },
+
+    contact: () => t("terminal.contact_msg"),
+
+    socials: () => t("terminal.socials_msg"),
+
+    education: () => t("terminal.education_msg"),
+
+    whoami: "visitor@thinhme.tech",
+
+    date: () => new Date().toLocaleString(locale === "vi" ? "vi-VN" : "en-US", { dateStyle: "full", timeStyle: "medium" }),
+
+    neofetch: () => `
+  ████████╗██████╗ 
+  ╚══██╔══╝██╔══██╗
+       ██║     ██████╔╝    thinh@thinhme.tech
+       ██║     ██╔═══╝     ─────────────────
+       ██║     ██║         ${t("terminal.neofetch_os")}: Next.js 16
+       ╚═╝     ╚═╝         ${t("terminal.neofetch_shell")}: TypeScript 5
+                          DE: Framer Motion
+     thinhme.tech          WM: TailwindCSS v4
+                          Theme: Navy Dark
+                          Terminal: Interactive v1.0
+                          Uptime: ${t("terminal.uptime_since")}
+                          ${t("terminal.neofetch_packages")}: ${skills.length} skills loaded`,
+  };
+
   const [lines, setLines] = useState<Line[]>([
-    { type: "output", content: `Welcome to thinhme.tech terminal v1.0` },
-    { type: "output", content: `Type "help" to see available commands.\n` },
+    { type: "output", content: t("terminal.welcome") },
+    { type: "output", content: t("terminal.help_msg") },
+    { type: "output", content: "" },
   ]);
   const [input, setInput] = useState("");
   const [history, setHistory] = useState<string[]>([]);
@@ -130,16 +106,22 @@ function TerminalContent({ onClose }: { onClose: () => void }) {
 
     if (trimmed.startsWith("echo ")) {
       newLines.push({ type: "output", content: cmd.slice(5) });
+    } else if (trimmed === "matrix") {
+      newLines.push({ type: "output", content: t("terminal.matrix") });
+      setTimeout(() => triggerMatrixRain(), 300);
+    } else if (trimmed === "hack") {
+      newLines.push({ type: "output", content: t("terminal.hack") });
+      setTimeout(() => triggerHackerMode(), 300);
     } else if (trimmed === "") {
       // empty, do nothing
     } else if (COMMANDS[trimmed]) {
       const result = COMMANDS[trimmed];
-      const output = typeof result === "function" ? result() : result;
+      const output = typeof result === "function" ? (result() as string) : (result as string);
       newLines.push({ type: "output", content: output });
     } else {
       newLines.push({
         type: "error",
-        content: `Command not found: ${trimmed}. Type "help" for available commands.`,
+        content: t("terminal.notfound").replace("{cmd}", trimmed),
       });
     }
 
@@ -206,12 +188,12 @@ function TerminalContent({ onClose }: { onClose: () => void }) {
         {/* Terminal body */}
         <div
           ref={scrollRef}
-          className="h-[400px] overflow-y-auto p-4 font-mono text-sm leading-relaxed"
+          className="h-[350px] sm:h-[400px] overflow-y-auto overflow-x-hidden p-3 sm:p-4 font-mono text-xs sm:text-sm leading-relaxed"
           style={{ fontFamily: "var(--font-jetbrains), 'Fira Code', 'Courier New', monospace" }}
           onClick={() => inputRef.current?.focus()}
         >
           {lines.map((line, i) => (
-            <div key={i} className="whitespace-pre-wrap">
+            <div key={i} className="whitespace-pre-wrap break-all sm:break-normal">
               {line.type === "input" ? (
                 <span className="text-[#58A6FF]">{line.content}</span>
               ) : line.type === "error" ? (
@@ -223,8 +205,9 @@ function TerminalContent({ onClose }: { onClose: () => void }) {
           ))}
 
           {/* Current input */}
-          <div className="flex items-center gap-0 text-[#58A6FF]">
-            <span>visitor@thinhme.tech:~$ </span>
+          <div className="flex items-center gap-1 text-[#58A6FF]">
+            <span className="hidden sm:inline shrink-0">visitor@thinhme.tech:~$&nbsp;</span>
+            <span className="sm:hidden shrink-0">~$&nbsp;</span>
             <input
               ref={inputRef}
               type="text"

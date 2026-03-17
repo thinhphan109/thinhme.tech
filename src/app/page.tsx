@@ -15,32 +15,37 @@ import InteractiveTerminal from "@/components/InteractiveTerminal";
 import MarqueeQuote from "@/components/MarqueeQuote";
 import GitHubHeatmap from "@/components/GitHubHeatmap";
 import ConsoleEasterEgg from "@/components/ConsoleEasterEgg";
+import EasterEggs from "@/components/EasterEggs";
+import PageTransition from "@/components/PageTransition";
 
 export default function Home() {
   return (
     <>
       <PageLoader />
       <ConsoleEasterEgg />
+      <EasterEggs />
       <CustomCursor />
       <ScrollProgress />
       <BackToTop />
       <InteractiveTerminal />
       <Navbar />
-      <main>
-        <Hero />
-        <WaveDivider />
-        <About />
-        <Stats />
-        <GitHubHeatmap />
-        <WaveDivider className="opacity-50" />
-        <Skills />
-        <MarqueeQuote />
-        <WaveDivider />
-        <Projects />
-        <WaveDivider className="opacity-50" />
-        <Contact />
-      </main>
-      <Footer />
+      <PageTransition>
+        <main>
+          <Hero />
+          <WaveDivider />
+          <About />
+          <Stats />
+          <GitHubHeatmap />
+          <WaveDivider className="opacity-50" />
+          <Skills />
+          <MarqueeQuote />
+          <WaveDivider />
+          <Projects />
+          <WaveDivider className="opacity-50" />
+          <Contact />
+        </main>
+        <Footer />
+      </PageTransition>
     </>
   );
 }
