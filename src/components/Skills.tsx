@@ -66,7 +66,7 @@ export default function Skills() {
     <section
       id="skills"
       ref={sectionRef}
-      className="relative mx-auto max-w-6xl px-6 py-32"
+      className="relative mx-auto max-w-6xl px-6 py-32 overflow-hidden"
     >
       {/* Background decoration */}
       <div
@@ -220,11 +220,11 @@ export default function Skills() {
 
       {/* Tech Stack Orbit */}
       <motion.div
-        className="mt-20 flex flex-col items-center"
+        className="mt-20 flex flex-col items-center overflow-hidden"
         initial={{ opacity: 0, scale: 0.8 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true, amount: 0.2 }}
-        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] }}
+        transition={{ duration: 0.8, ease: [0.25, 0.46, 0.45, 0.94] as const }}
       >
         <p
           className="mb-4 text-center text-xs tracking-[0.3em] uppercase text-gray dark:text-gray-light"

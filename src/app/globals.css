@@ -216,3 +216,24 @@ body.dark {
   .marquee-track { animation: none; }
   .skill-bar-fill { transition: none; }
 }
+
+/* ===== TECH ORBIT RESPONSIVE SCALING ===== */
+:root {
+  --orbit-scale: 0.62;
+}
+
+@media (min-width: 400px) {
+  :root { --orbit-scale: 0.7; }
+}
+
+@media (min-width: 480px) {
+  :root { --orbit-scale: 0.82; }
+}
+
+@media (min-width: 640px) {
+  :root { --orbit-scale: 0.9; }
+}
+
+@media (min-width: 768px) {
+  :root { --orbit-scale: 1; }
+}
