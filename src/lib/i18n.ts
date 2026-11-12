@@ -26,7 +26,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     // About
     "about.label": "01 — Giới thiệu",
     "about.title": "Giới thiệu",
-    "about.bio": "Tôi là sinh viên Điện tử Viễn thông, quan tâm đến hệ thống nhúng và thị giác máy tính. Trong đề tài RobotVision, tôi kết hợp camera, nhận diện vật thể và mô phỏng cánh tay robot. Tôi cũng xây dựng công cụ tự động hoá cho các công việc hằng ngày.",
+    "about.bio": "Tôi là sinh viên Điện tử Viễn thông, quan tâm đến hệ thống nhúng và thị giác máy tính. Tôi cũng xây dựng công cụ để tự động hoá những việc lặp lại, từ theo dõi mẻ in 3D đến quản lý thiết bị.",
     "about.location": "Việt Nam 🇻🇳",
     "about.available": "Điện tử, hệ thống nhúng và IoT",
     "about.present": "Nay",
@@ -34,13 +34,13 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     "exp.education.role": "Sinh viên Điện tử Viễn thông",
     "exp.education.context": "Khoa Điện – Điện tử, HCMUTE",
-    "exp.education.desc": "Học về vi điều khiển, IoT và điều khiển robot. Tham gia cuộc thi RobotGladiator và thực hiện đề tài RobotVision về thị giác máy tính tại biên.",
+    "exp.education.desc": "Trong đề tài RobotVision, tôi dùng YOLO để nhận diện các khối hình từ ảnh camera và mô phỏng đường đi của cánh tay robot trên trình duyệt.",
     "exp.automation.role": "Xây dựng hệ thống vận hành",
     "exp.automation.context": "Dự án cá nhân",
-    "exp.automation.desc": "Phát triển METECH Assistant để theo dõi mẻ in và kho nhựa, Pi Control để quản trị Raspberry Pi, và Saigon Pulse để tổng hợp bản tin dữ liệu.",
-    "exp.minecraft.role": "Quản trị máy chủ Minecraft",
-    "exp.minecraft.context": "Dự án cộng đồng",
-    "exp.minecraft.desc": "Từng thiết lập và bảo trì máy chủ Minecraft, tuỳ biến plugin và tự động hoá công việc quản trị. Giai đoạn này kết thúc vào năm 2026.",
+    "exp.automation.desc": "Tôi phát triển METECH Assistant để theo dõi mẻ in và kho nhựa, và Pi Control để quản lý Raspberry Pi. Với MetechCamA1, tôi dùng điện thoại Android cũ làm camera cố định để chụp timelapse.",
+    "exp.minecraft.role": "Minecraft Server",
+    "exp.minecraft.context": "Cấu hình plugin và vận hành",
+    "exp.minecraft.desc": "Từng triển khai và bảo trì máy chủ, tuỳ biến plugin cho các chế độ chơi và tự động hoá công việc vận hành.",
 
     // Skills
     "skills.label": "02 — Kỹ năng",
@@ -138,7 +138,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     // About
     "about.label": "01 — About",
     "about.title": "About Me",
-    "about.bio": "I study electronics and telecommunications, with a focus on embedded systems and computer vision. In RobotVision, I work on camera input, object detection, and robot arm simulation. I also build automation tools for everyday tasks.",
+    "about.bio": "I study electronics and telecommunications, with a focus on embedded systems and computer vision. I also build tools to automate recurring tasks, from tracking 3D print batches to managing devices.",
     "about.location": "Vietnam 🇻🇳",
     "about.available": "Electronics, Embedded Systems and IoT",
     "about.present": "Present",
@@ -146,13 +146,13 @@ export const translations: Record<Locale, Record<string, string>> = {
 
     "exp.education.role": "Electronics & Telecommunications Student",
     "exp.education.context": "Faculty of Electrical and Electronics Engineering, HCMUTE",
-    "exp.education.desc": "Studying microcontrollers, IoT, and robot control. Participated in RobotGladiator and worked on RobotVision, a research project in edge computer vision.",
+    "exp.education.desc": "In the RobotVision research project, I use YOLO to detect geometric shapes in camera images and simulate the robot arm’s path in the browser.",
     "exp.automation.role": "Building Operations Tools",
     "exp.automation.context": "Personal Projects",
-    "exp.automation.desc": "Built METECH Assistant to track print batches and filament, Pi Control to manage a Raspberry Pi, and Saigon Pulse to publish data digests.",
-    "exp.minecraft.role": "Minecraft Server Administration",
-    "exp.minecraft.context": "Community Projects",
-    "exp.minecraft.desc": "Set up and maintained Minecraft servers, customized plugins, and automated administrative tasks. This work ended in 2026.",
+    "exp.automation.desc": "I built METECH Assistant to track print batches and filament, and Pi Control to manage a Raspberry Pi. For MetechCamA1, I repurposed an old Android phone as a fixed timelapse camera.",
+    "exp.minecraft.role": "Minecraft Server",
+    "exp.minecraft.context": "Plugin Configuration and Operations",
+    "exp.minecraft.desc": "Deployed and maintained servers, customized plugins for game modes, and automated routine operations.",
 
     // Skills
     "skills.label": "02 — Skills",
