@@ -342,11 +342,24 @@ input:focus-visible + .appearance-focus {
   animation: fade-in-up 0.4s ease forwards;
 }
 
+/* Four hero roles share one grid cell, with a four-second slot for each phrase. */
+.hero-role {
+  opacity: 0;
+  animation: hero-role-fade 16s ease-in-out infinite;
+}
+
+@keyframes hero-role-fade {
+  0%, 27.5%, 100% { opacity: 0; }
+  2.5%, 25% { opacity: 1; }
+}
+
 /* ===== SMOOTH TRANSITIONS ===== */
 @media (prefers-reduced-motion: reduce) {
   .reveal { transition: none; }
   .marquee-track { animation: none; }
   .skill-bar-fill { transition: none; }
+  .hero-role { animation: none; }
+  .hero-role:first-child { opacity: 1; }
 }
 
 /* ===== TECH ORBIT RESPONSIVE SCALING ===== */

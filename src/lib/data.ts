@@ -3,7 +3,6 @@ export const personalInfo = {
   lastName: "PHAN",
   role: "Tech Tinkerer & Automation Enthusiast",
   tagline: "automation • tinkering • building",
-  bio: `Bắt đầu từ việc vọc config Minecraft Server năm 2020, tôi dần khám phá ra đam mê thực sự với công nghệ và tự động hoá. Từ tuỳ biến plugin, nâng cấp server, đến xây dựng hệ thống monitoring và desktop app — tôi tin rằng nếu có thể tự động hoá được, thì nên tự động hoá nó.`,
   avatar: "/images/avatar.jpg",
   email: "hello@thinhme.tech",
   location: "Vietnam 🇻🇳",
@@ -38,31 +37,11 @@ export const skills = [
 
 export { projects } from "./projects";
 
-export const experiences = [
-  {
-    year: "2025 — Now",
-    role: "Builder & AI Tinkerer",
-    company: "Personal Projects",
-    description: "Phát triển Minecraft plugin với AI, xây dựng desktop apps và hệ thống monitoring.",
-  },
-  {
-    year: "2024 — Now",
-    role: "Tech Tinkerer & Automation",
-    company: "Freelance",
-    description: "Xây dựng công cụ tự động hoá, từ bản tin dữ liệu đến vận hành hệ thống trên Raspberry Pi.",
-  },
-  {
-    year: "2024 — Now",
-    role: "Sinh viên Điện tử Viễn thông",
-    company: "Đại học",
-    description: "Học về mạch điện tử, vi xử lý, IoT, robotics. Tham gia cuộc thi RobotGladiator — Khoa Điện.",
-  },
-  {
-    year: "2020 — Now",
-    role: "Minecraft Server Config",
-    company: "Community",
-    description: "Config server Minecraft, tuỳ biến plugin, quản lý server, tìm hiểu và lập trình.",
-  },
+export const experiences: { from: number; to?: number }[] = [
+  { from: 2025 },
+  { from: 2024 },
+  { from: 2024 },
+  { from: 2020, to: 2026 },
 ];
 
 export const marqueeWords = [

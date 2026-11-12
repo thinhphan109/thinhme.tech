@@ -202,13 +202,13 @@ export default function About() {
                             }`}
                             style={{ fontFamily: "var(--font-jetbrains)" }}
                           >
-                            {exp.year}
+                            {exp.from} — {exp.to ?? t("about.present")}
                           </p>
                         </div>
                         <h3 className="text-sm font-semibold text-navy dark:text-white">
                           {t(`exp.${i}.role`)}
                         </h3>
-                        <p className="text-xs text-lavender">{exp.company}</p>
+                        <p className="text-xs text-lavender">{t(`exp.${i}.context`)}</p>
                         <AnimatePresence>
                           {activeExp === i && (
                             <motion.p

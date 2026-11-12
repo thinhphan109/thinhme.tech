@@ -8,16 +8,13 @@ import {
   fadeInDown,
 } from "@/lib/animations";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef } from "react";
 import ParticleField from "./ParticleField";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Hero() {
   const { t } = useLanguage();
   const roles = t("hero.roles").split(",");
-  const [roleIndex, setRoleIndex] = useState(0);
-  const [displayed, setDisplayed] = useState("");
-  const [isDeleting, setIsDeleting] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
 
   // Parallax scroll transforms
@@ -34,29 +31,6 @@ export default function Hero() {
   const blob3Y = useTransform(scrollYProgress, [0, 1], [0, 60]);
   const marqueeOpacity = useTransform(scrollYProgress, [0, 0.4], [1, 0]);
   const marqueeY = useTransform(scrollYProgress, [0, 0.5], [0, 40]);
-
-  // Typewriter effect
-  useEffect(() => {
-    const current = roles[roleIndex];
-    const timeout = setTimeout(
-      () => {
-        if (!isDeleting) {
-          setDisplayed(current.slice(0, displayed.length + 1));
-          if (displayed.length === current.length) {
-            setTimeout(() => setIsDeleting(true), 2000);
-          }
-        } else {
-          setDisplayed(current.slice(0, displayed.length - 1));
-          if (displayed.length === 0) {
-            setIsDeleting(false);
-            setRoleIndex((prev) => (prev + 1) % roles.length);
-          }
-        }
-      },
-      isDeleting ? 40 : 80
-    );
-    return () => clearTimeout(timeout);
-  }, [displayed, isDeleting, roleIndex]);
 
   return (
     <section
@@ -129,19 +103,23 @@ export default function Hero() {
           </motion.span>
         </motion.h1>
 
-        {/* Typewriter Role */}
-        <motion.div className="mt-6 h-8 flex items-center" variants={fadeInUp}>
-          <p
-            className="text-lg font-medium text-gray md:text-xl dark:text-gray-light"
-            style={{ fontFamily: "var(--font-inter)" }}
-          >
-            {displayed}
-            <span
-              className="ml-0.5 inline-block h-5 w-0.5 bg-peach"
-              style={{ animation: "pulse-dot 1s ease-in-out infinite" }}
-            />
-          </p>
-        </motion.div>
+        <motion.p
+          className="mt-6 text-lg font-medium text-gray md:text-xl dark:text-gray-light"
+          variants={fadeInUp}
+        >
+          <span className="sr-only">{roles[0]}</span>
+          <span className="inline-grid min-h-8 items-center" aria-hidden="true" key={roles[0]}>
+            {roles.map((role, index) => (
+              <span
+                key={role}
+                className="hero-role col-start-1 row-start-1"
+                style={{ animationDelay: `${index * 4 - 0.4}s` }}
+              >
+                {role}
+              </span>
+            ))}
+          </span>
+        </motion.p>
 
         {/* CTA */}
         <motion.div className="mt-8 mb-4 flex gap-4" variants={fadeInUp}>
