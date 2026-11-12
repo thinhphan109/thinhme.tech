@@ -2,6 +2,7 @@ import ScrollProgress from "@/components/ScrollProgress";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import About from "@/components/About";
+import Research from "@/components/Research";
 import Stats from "@/components/Stats";
 import Skills from "@/components/Skills";
 import Projects from "@/components/Projects";
@@ -34,6 +35,7 @@ export default function Home() {
           <Hero />
           <WaveDivider />
           <About />
+          <Research />
           <Stats />
           <GitHubHeatmap />
           <WaveDivider className="opacity-50" />

@@ -1,12 +1,11 @@
 "use client";
 
-import { personalInfo, experiences } from "@/lib/data";
-import { MapPin, Briefcase, Calendar, ChevronRight } from "lucide-react";
+import { experiences } from "@/lib/data";
+import { MapPin, GraduationCap, Calendar, ChevronRight } from "lucide-react";
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
 import { useRef, useState } from "react";
 import { useLanguage } from "@/contexts/LanguageContext";
 import {
-  fadeInUp,
   fadeInLeft,
   fadeInRight,
   staggerContainer,
@@ -17,7 +16,7 @@ import {
 
 export default function About() {
   const { t } = useLanguage();
-  const [activeExp, setActiveExp] = useState(0);
+  const [activeExp, setActiveExp] = useState(experiences[0].id);
   const timelineRef = useRef<HTMLDivElement>(null);
 
   const { scrollYProgress } = useScroll({
@@ -126,7 +125,7 @@ export default function About() {
               className="flex items-center gap-2 rounded-full border border-navy/5 bg-white/60 backdrop-blur-sm px-4 py-2 dark:border-white/10 dark:bg-dark-card/60"
               variants={scaleIn}
             >
-              <Briefcase className="h-4 w-4 text-lavender" />
+              <GraduationCap className="h-4 w-4 text-lavender" aria-hidden="true" />
               <span className="text-sm text-navy dark:text-white">{t("hero.role")}</span>
             </motion.div>
           </motion.div>
@@ -161,7 +160,7 @@ export default function About() {
             <div className="space-y-4">
               {experiences.map((exp, i) => (
                 <motion.div
-                  key={i}
+                  key={exp.id}
                   className="relative"
                   initial={{ opacity: 0, x: 20 }}
                   whileInView={{ opacity: 1, x: 0 }}
@@ -171,19 +170,20 @@ export default function About() {
                   {/* Dot marker */}
                   <motion.div
                     className={`absolute -left-[22px] top-4 h-3 w-3 rounded-full border-2 ${
-                      activeExp === i
+                      activeExp === exp.id
                         ? "border-peach bg-peach shadow-lg shadow-peach/30"
                         : "border-navy/20 bg-white dark:border-white/20 dark:bg-dark-bg"
                     } transition-all duration-300`}
-                    animate={activeExp === i ? { scale: [1, 1.3, 1] } : { scale: 1 }}
-                    transition={{ duration: 1.5, repeat: activeExp === i ? Infinity : 0 }}
+                    animate={activeExp === exp.id ? { scale: [1, 1.3, 1] } : { scale: 1 }}
+                    transition={{ duration: 1.5, repeat: activeExp === exp.id ? Infinity : 0 }}
                   />
 
                   {/* Glassmorphism card */}
                   <button
-                    onClick={() => setActiveExp(i)}
+                    onClick={() => setActiveExp(exp.id)}
+                    aria-expanded={activeExp === exp.id}
                     className={`group w-full cursor-pointer rounded-2xl border p-4 text-left transition-all duration-300 backdrop-blur-sm ${
-                      activeExp === i
+                      activeExp === exp.id
                         ? "border-peach/30 bg-white/60 shadow-lg shadow-peach/5 dark:border-peach/20 dark:bg-white/5"
                         : "border-navy/5 bg-white/40 hover:border-navy/10 hover:bg-white/60 hover:shadow-sm dark:border-white/5 dark:bg-white/[0.02] dark:hover:border-white/10 dark:hover:bg-white/5"
                     }`}
@@ -193,12 +193,12 @@ export default function About() {
                         <div className="mb-1 flex items-center gap-2">
                           <Calendar
                             className={`h-3.5 w-3.5 ${
-                              activeExp === i ? "text-peach" : "text-gray dark:text-gray-light"
+                              activeExp === exp.id ? "text-peach" : "text-gray dark:text-gray-light"
                             }`}
                           />
                           <p
                             className={`text-xs tracking-wider ${
-                              activeExp === i ? "text-peach" : "text-gray dark:text-gray-light"
+                              activeExp === exp.id ? "text-peach" : "text-gray dark:text-gray-light"
                             }`}
                             style={{ fontFamily: "var(--font-jetbrains)" }}
                           >
@@ -206,11 +206,11 @@ export default function About() {
                           </p>
                         </div>
                         <h3 className="text-sm font-semibold text-navy dark:text-white">
-                          {t(`exp.${i}.role`)}
+                          {t(`exp.${exp.id}.role`)}
                         </h3>
-                        <p className="text-xs text-lavender">{t(`exp.${i}.context`)}</p>
+                        <p className="text-xs text-gray dark:text-gray-light">{t(`exp.${exp.id}.context`)}</p>
                         <AnimatePresence>
-                          {activeExp === i && (
+                          {activeExp === exp.id && (
                             <motion.p
                               className="mt-2 text-sm leading-relaxed text-gray dark:text-gray-light"
                               initial={{ opacity: 0, height: 0 }}
@@ -218,18 +218,18 @@ export default function About() {
                               exit={{ opacity: 0, height: 0 }}
                               transition={{ duration: 0.3 }}
                             >
-                              {t(`exp.${i}.desc`)}
+                              {t(`exp.${exp.id}.desc`)}
                             </motion.p>
                           )}
                         </AnimatePresence>
                       </div>
                       <motion.div
-                        animate={{ rotate: activeExp === i ? 90 : 0 }}
+                        animate={{ rotate: activeExp === exp.id ? 90 : 0 }}
                         transition={{ duration: 0.3 }}
                       >
                         <ChevronRight
                           className={`h-4 w-4 flex-shrink-0 ${
-                            activeExp === i ? "text-peach" : "text-gray/30 dark:text-white/20"
+                            activeExp === exp.id ? "text-peach" : "text-gray/30 dark:text-white/20"
                           }`}
                         />
                       </motion.div>

@@ -10,6 +10,7 @@ import { useLanguage } from "@/contexts/LanguageContext";
 const navItems = [
   { key: "nav.home", href: "#hero" },
   { key: "nav.about", href: "#about" },
+  { key: "nav.research", href: "#research" },
   { key: "nav.skills", href: "#skills" },
   { key: "nav.projects", href: "#projects" },
   { key: "nav.contact", href: "#contact" },
@@ -78,9 +79,9 @@ export default function Navbar() {
           </motion.a>
 
           {/* Right side: Desktop Nav + Theme toggle + Mobile hamburger */}
-          <div className="flex items-center gap-12">
+          <div className="flex items-center gap-8 xl:gap-12">
             {/* Desktop Nav */}
-            <div className="hidden items-center gap-10 lg:flex">
+            <div className="hidden items-center gap-6 lg:flex xl:gap-8">
               {navItems.map((item, i) => (
                 <motion.a
                   key={item.href}

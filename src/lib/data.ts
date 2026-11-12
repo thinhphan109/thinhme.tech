@@ -1,7 +1,6 @@
 export const personalInfo = {
   name: "THINH",
   lastName: "PHAN",
-  role: "Tech Tinkerer & Automation Enthusiast",
   tagline: "automation • tinkering • building",
   avatar: "/images/avatar.jpg",
   email: "hello@thinhme.tech",
@@ -37,11 +36,10 @@ export const skills = [
 
 export { projects } from "./projects";
 
-export const experiences: { from: number; to?: number }[] = [
-  { from: 2025 },
-  { from: 2024 },
-  { from: 2024 },
-  { from: 2020, to: 2026 },
+export const experiences: { id: string; from: number; to?: number }[] = [
+  { id: "education", from: 2024 },
+  { id: "automation", from: 2025 },
+  { id: "minecraft", from: 2020, to: 2026 },
 ];
 
 export const marqueeWords = [
