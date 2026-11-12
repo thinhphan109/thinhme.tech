@@ -64,12 +64,13 @@ Located in `src/components/GitHubHeatmap.tsx`.
 ## 📂 Project Structure
 - `src/app/`: Next.js pages and layouts.
 - `src/components/`: Reusable UI modules (Atomic design approach).
-- `src/lib/data.ts`: **The single source of truth** for all personal info, projects, and skills. Update this file to change site content.
+- `src/lib/data.ts`: Personal info, experience, and skills.
+- `src/lib/projects.ts`: Project descriptions in Vietnamese and English, preview images, and public demo links.
 - `src/lib/animations.ts`: Centralized animation variants.
 - `public/`: Static assets (Logos, OG Images, SVGs).
 
 ## 🚀 Development & Maintenance
-To update the skills or projects, modify the exports in `src/lib/data.ts`.
+To update the project showcase, edit `src/lib/projects.ts`. Preview images are in `public/projects/`.
 To fix animation timing site-wide, update constants in `src/lib/animations.ts`.
 
 ---

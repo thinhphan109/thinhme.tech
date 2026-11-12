@@ -44,9 +44,9 @@ ${t("about.bio")}`,
 
     projects: () => {
       return projects.map(p => `
-📁 ${t(`proj.${p.id}.title`)}
+📁 ${p.title}
    ${p.tech.join(" • ")}
-   ${t(`proj.${p.id}.desc`)}`).join("\n");
+   ${p.copy[locale].summary}`).join("\n");
     },
 
     contact: () => t("terminal.contact_msg"),

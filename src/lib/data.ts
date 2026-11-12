@@ -36,56 +36,7 @@ export const skills = [
   { name: "Linux / VPS", level: 88, category: "Hardware" },
 ];
 
-export const projects = [
-  {
-    id: 1,
-    title: "PM2 Monitor Dashboard",
-    description:
-      "Dashboard giám sát Node.js ecosystem với glassmorphism UI, live metrics, role-based access control. Xây dựng bằng Next.js & tRPC.",
-    tech: ["Next.js", "tRPC", "TypeScript", "PM2"],
-    url: "https://pm2.thinhphan.io.vn/",
-    github: "https://github.com/thinhphan109/pm2-monitor.web",
-    image: "https://raw.githubusercontent.com/thinhphan109/pm2-monitor.web/main/assets/index.jpeg",
-    language: "TypeScript",
-    featured: true,
-  },
-  {
-    id: 2,
-    title: "Nova Video Studio",
-    description:
-      "Desktop app all-in-one: download, merge, convert video. Hỗ trợ 1000+ sites, parallel downloads, bandwidth limiting với Dark UI premium.",
-    tech: ["Electron", "React", "yt-dlp", "TypeScript"],
-    url: "https://thinhphan.io.vn/",
-    github: "https://github.com/thinhphan109/NovaVideoStudio",
-    image: "/projects/nova-video.png",
-    language: "TypeScript",
-    featured: true,
-  },
-  {
-    id: 3,
-    title: "Actions Daily",
-    description:
-      "Hệ thống tự động tạo bản tin Markdown hằng ngày, cày contributions bằng GitHub Actions, lấy data từ API và ping Discord.",
-    tech: ["Python", "GitHub Actions", "API", "Discord"],
-    url: "https://github.com/thinhphan109/actions-daily",
-    github: "https://github.com/thinhphan109/actions-daily",
-    image: "/projects/actions-daily.png",
-    language: "Python",
-    featured: false,
-  },
-  {
-    id: 4,
-    title: "RobotGladiator",
-    description:
-      "Dự án cuộc thi học thuật RoboGladiator — Khoa Điện - Điện tử. Lập trình robot đấu trường bằng C++ và vi điều khiển.",
-    tech: ["C++", "Arduino", "Robotics", "IoT"],
-    url: "https://github.com/thinhphan109/RobotGladiator",
-    github: "https://github.com/thinhphan109/RobotGladiator",
-    image: "/projects/robot-gladiator.jpg",
-    language: "C++",
-    featured: false,
-  },
-];
+export { projects } from "./projects";
 
 export const experiences = [
   {
@@ -98,7 +49,7 @@ export const experiences = [
     year: "2024 — Now",
     role: "Tech Tinkerer & Automation",
     company: "Freelance",
-    description: "Xây dựng tools tự động hoá (GitHub Actions, bots), Nova Video Studio, PM2 Monitor Dashboard, v.v.",
+    description: "Xây dựng công cụ tự động hoá, từ bản tin dữ liệu đến vận hành hệ thống trên Raspberry Pi.",
   },
   {
     year: "2024 — Now",
