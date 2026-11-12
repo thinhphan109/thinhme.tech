@@ -10,7 +10,7 @@ const modeIcons = { light: Sun, dark: Moon, system: Monitor };
 
 export default function ThemeToggle() {
   const { t } = useLanguage();
-  const { mode, theme, setMode, setTheme } = useTheme();
+  const { mode, theme, typewriter, setMode, setTheme, setTypewriter } = useTheme();
   const [open, setOpen] = useState(false);
   const picker = useRef<HTMLDivElement>(null);
   const trigger = useRef<HTMLButtonElement>(null);
@@ -104,6 +104,15 @@ export default function ThemeToggle() {
             </label>
           ))}
         </fieldset>
+        <label className="mt-2 flex min-h-10 cursor-pointer items-center justify-between gap-2 border-t border-navy/10 px-2 pt-2 text-sm dark:border-white/10">
+          {t("appearance.typewriter")}
+          <input
+            type="checkbox"
+            checked={typewriter}
+            onChange={(event) => setTypewriter(event.target.checked)}
+            className="appearance-focus size-4 cursor-pointer accent-navy dark:accent-peach"
+          />
+        </label>
       </div>
     </div>
   );

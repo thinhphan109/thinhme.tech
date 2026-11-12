@@ -9,6 +9,7 @@ import {
   isTheme,
   modeKey,
   themeKey,
+  typewriterKey,
   type ColorMode,
   type Theme,
 } from "@/lib/appearance";
@@ -40,13 +41,28 @@ function setTheme(theme: Theme) {
   savePreference(themeKey, theme);
 }
 
+function setTypewriter(enabled: boolean) {
+  const value = enabled ? "on" : "off";
+  document.documentElement.dataset.typewriter = value;
+  savePreference(typewriterKey, value);
+}
+
 function getServerSnapshot() {
-  return `${defaultMode}/${defaultTheme}`;
+  return `${defaultMode}/${defaultTheme}/on`;
 }
 
 function getSnapshot() {
-  const { colorMode = defaultMode, theme = defaultTheme } = document.documentElement.dataset;
-  return `${colorMode}/${theme}`;
+  const { colorMode = defaultMode, theme = defaultTheme, typewriter } =
+    document.documentElement.dataset;
+  let preference = typewriter;
+  if (preference === undefined) {
+    try {
+      preference = localStorage.getItem(typewriterKey) ?? "on";
+    } catch {
+      preference = "on";
+    }
+  }
+  return `${colorMode}/${theme}/${preference}`;
 }
 
 function subscribe(onChange: () => void) {
@@ -63,6 +79,9 @@ function subscribe(onChange: () => void) {
     }
     if (event.key === themeKey || event.key === null) {
       root.dataset.theme = isTheme(value) ? value : defaultTheme;
+    }
+    if (event.key === typewriterKey || event.key === null) {
+      root.dataset.typewriter = value === "off" ? "off" : "on";
     }
     onChange();
   };
@@ -81,21 +100,25 @@ function subscribe(onChange: () => void) {
 interface ThemeContextType {
   mode: ColorMode;
   theme: Theme;
+  typewriter: boolean;
   setMode: (mode: ColorMode) => void;
   setTheme: (theme: Theme) => void;
+  setTypewriter: (enabled: boolean) => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | null>(null);
 
 export function ThemeProvider({ children }: { children: ReactNode }) {
-  const [mode, theme] = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot).split("/");
+  const [mode, theme, typewriter] = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot).split("/");
 
   return (
     <ThemeContext.Provider value={{
       mode: isColorMode(mode) ? mode : defaultMode,
       theme: isTheme(theme) ? theme : defaultTheme,
+      typewriter: typewriter !== "off",
       setMode,
       setTheme,
+      setTypewriter,
     }}>
       {children}
     </ThemeContext.Provider>

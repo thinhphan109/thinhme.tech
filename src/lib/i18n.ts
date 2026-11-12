@@ -13,6 +13,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "appearance.light": "Sáng",
     "appearance.dark": "Tối",
     "appearance.system": "Hệ thống",
+    "appearance.typewriter": "Hiệu ứng gõ chữ",
 
     // Hero
     "hero.greeting": "Xin chào, tôi là",
@@ -124,6 +125,7 @@ export const translations: Record<Locale, Record<string, string>> = {
     "appearance.light": "Light",
     "appearance.dark": "Dark",
     "appearance.system": "System",
+    "appearance.typewriter": "Typing animation",
 
     // Hero
     "hero.greeting": "Hi, I'm",

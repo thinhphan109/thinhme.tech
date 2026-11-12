@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 const holdTime = 2600;
 const eraseTime = 42;
@@ -39,31 +40,23 @@ function createFrames(roles: string[]): Frame[] {
 }
 
 export default function HeroTypewriter({ phrases }: { phrases: string }) {
+  const { typewriter } = useTheme();
+  return <Typewriter key={String(typewriter)} phrases={phrases} enabled={typewriter} />;
+}
+
+function Typewriter({ phrases, enabled }: { phrases: string; enabled: boolean }) {
   const roles = useMemo(() => phrases.split(","), [phrases]);
   const frames = useMemo(() => createFrames(roles), [roles]);
   const [index, setIndex] = useState(0);
   const frame = frames[index];
 
   useEffect(() => {
-    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-    let timer: number | undefined;
-
-    function schedule() {
-      window.clearTimeout(timer);
-      if (!reducedMotion.matches) {
-        timer = window.setTimeout(() => {
-          setIndex((previous) => (previous + 1) % frames.length);
-        }, frame.duration);
-      }
-    }
-
-    schedule();
-    reducedMotion.addEventListener("change", schedule);
-    return () => {
-      window.clearTimeout(timer);
-      reducedMotion.removeEventListener("change", schedule);
-    };
-  }, [frame.duration, frames.length, index]);
+    if (!enabled) return;
+    const timer = window.setTimeout(() => {
+      setIndex((previous) => (previous + 1) % frames.length);
+    }, frame.duration);
+    return () => window.clearTimeout(timer);
+  }, [enabled, frame, frames.length]);
 
   return (
     <>
@@ -74,16 +67,15 @@ export default function HeroTypewriter({ phrases }: { phrases: string }) {
             {role}
           </span>
         ))}
-        <span className="relative col-start-1 row-start-1 justify-self-center px-1 motion-reduce:hidden">
+        <span className="relative col-start-1 row-start-1 justify-self-center px-1">
           <span className="invisible">{frame.role}</span>
           <span className="absolute inset-x-0 top-0 ps-1 text-left">
             <span className="hero-typed-text whitespace-pre-wrap">{frame.text}</span>
-            {frame.text && (
+            {enabled && frame.text && (
               <span className="ms-0.5 inline-block h-[0.85em] w-0.5 bg-peach align-[-0.05em]" />
             )}
           </span>
         </span>
-        <span className="col-start-1 row-start-1 hidden px-1 motion-reduce:block">{roles[0]}</span>
       </span>
     </>
   );

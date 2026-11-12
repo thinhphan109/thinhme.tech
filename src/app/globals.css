@@ -123,7 +123,8 @@
 html {
   scroll-behavior: smooth;
   color-scheme: light;
-  overflow-x: clip;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 html.dark {
@@ -134,13 +135,20 @@ body {
   background: var(--theme-canvas);
   color: var(--theme-ink);
   font-family: var(--font-body), system-ui, sans-serif;
-  overflow-x: hidden;
+  overflow-x: clip;
+  -webkit-user-select: none;
+  user-select: none;
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
 .dark body {
   background: var(--theme-night);
   color: #E5E7EB;
+}
+
+:is(input, textarea, [contenteditable]:not([contenteditable="false"])) {
+  -webkit-user-select: text;
+  user-select: text;
 }
 
 ::selection {

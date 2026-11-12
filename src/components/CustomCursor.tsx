@@ -67,9 +67,6 @@ export default function CustomCursor() {
     };
   }, [handleMouseMove]);
 
-  // Don't render on touch devices
-  if (typeof window !== "undefined" && "ontouchstart" in window) return null;
-
   return (
     <>
       {/* Outer ring — follows with spring delay */}
