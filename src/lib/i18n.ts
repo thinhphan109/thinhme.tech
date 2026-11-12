@@ -5,7 +5,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Navbar
     "nav.home": "Trang chủ",
     "nav.about": "Giới thiệu",
-    "nav.research": "Nghiên cứu",
     "nav.skills": "Kỹ năng",
     "nav.projects": "Dự án",
     "nav.contact": "Liên hệ",
@@ -41,19 +40,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "exp.minecraft.role": "Quản trị máy chủ Minecraft",
     "exp.minecraft.context": "Dự án cộng đồng",
     "exp.minecraft.desc": "Từng thiết lập và bảo trì máy chủ Minecraft, tuỳ biến plugin và tự động hoá công việc quản trị. Giai đoạn này kết thúc vào năm 2026.",
-
-    // Research
-    "research.title": "Nghiên cứu khoa học",
-    "research.robotvision.context": "Đề tài nhóm · 2026",
-    "research.robotvision.summary": "Nghiên cứu robot gắp–đặt để phân loại vật thể trên bàn. Nhóm dùng YOLO nhận diện ba dạng khối, hiệu chuẩn camera với ChArUco và thử mô phỏng quỹ đạo trước khi chạy tay robot.",
-    "research.robotvision.image": "Cánh tay robot in 3D trên bàn thử với bốn mốc ArUco.",
-    "research.robotvision.datasetLabel": "Tập dữ liệu v2",
-    "research.robotvision.dataset": "331 ảnh",
-    "research.robotvision.calibrationLabel": "RMS hiệu chuẩn · 35 ảnh",
-    "research.robotvision.calibration": "0,214 px",
-    "research.robotvision.scope": "Đã thử nhận diện trên ảnh camera và mô phỏng quỹ đạo. RMS là sai số chiếu lại của camera. Độ chính xác gắp–đặt trên robot thật còn chờ nghiệm thu.",
-    "research.camera.summary": "Nguyên mẫu camera timelapse cho máy in 3D. ESP32-S3 và OV5640 ghi ảnh lên microSD. Ứng dụng Windows tải ảnh và ghép thành video MP4.",
-    "research.camera.source": "Xem mã nguồn MetechCamA1",
 
     // Skills
     "skills.label": "02 — Kỹ năng",
@@ -130,7 +116,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     // Navbar
     "nav.home": "Home",
     "nav.about": "About",
-    "nav.research": "Research",
     "nav.skills": "Skills",
     "nav.projects": "Projects",
     "nav.contact": "Contact",
@@ -166,19 +151,6 @@ export const translations: Record<Locale, Record<string, string>> = {
     "exp.minecraft.role": "Minecraft Server Administration",
     "exp.minecraft.context": "Community Projects",
     "exp.minecraft.desc": "Set up and maintained Minecraft servers, customized plugins, and automated administrative tasks. This work ended in 2026.",
-
-    // Research
-    "research.title": "Research",
-    "research.robotvision.context": "Team research project · 2026",
-    "research.robotvision.summary": "A tabletop robot for sorting objects through pick and place. The team uses YOLO to detect three shapes, calibrates the camera with ChArUco, and simulates trajectories before moving the arm.",
-    "research.robotvision.image": "The 3D-printed arm on the test bench with four ArUco markers.",
-    "research.robotvision.datasetLabel": "Dataset v2",
-    "research.robotvision.dataset": "331 images",
-    "research.robotvision.calibrationLabel": "Calibration RMS · 35 images",
-    "research.robotvision.calibration": "0.214 px",
-    "research.robotvision.scope": "We tested detection on camera images and simulated trajectories. RMS measures camera reprojection error. Pick-and-place accuracy on the physical robot is still under evaluation.",
-    "research.camera.summary": "A timelapse camera prototype for 3D printing. An ESP32-S3 and OV5640 record frames to microSD, and a Windows app downloads and renders them to MP4.",
-    "research.camera.source": "View MetechCamA1 source",
 
     // Skills
     "skills.label": "02 — Skills",
