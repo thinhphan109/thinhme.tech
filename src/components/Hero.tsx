@@ -9,12 +9,13 @@ import {
 } from "@/lib/animations";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { useRef } from "react";
+import HeroTypewriter from "./HeroTypewriter";
 import ParticleField from "./ParticleField";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export default function Hero() {
   const { t } = useLanguage();
-  const roles = t("hero.roles").split(",");
+  const roles = t("hero.roles");
   const sectionRef = useRef<HTMLElement>(null);
 
   // Parallax scroll transforms
@@ -104,21 +105,10 @@ export default function Hero() {
         </motion.h1>
 
         <motion.p
-          className="mt-6 text-lg font-medium text-gray md:text-xl dark:text-gray-light"
+          className="mt-6 max-w-full text-lg font-medium text-gray md:text-xl dark:text-gray-light"
           variants={fadeInUp}
         >
-          <span className="sr-only">{roles[0]}</span>
-          <span className="inline-grid min-h-8 items-center" aria-hidden="true" key={roles[0]}>
-            {roles.map((role, index) => (
-              <span
-                key={role}
-                className="hero-role col-start-1 row-start-1"
-                style={{ animationDelay: `${index * 4 - 0.4}s` }}
-              >
-                {role}
-              </span>
-            ))}
-          </span>
+          <HeroTypewriter key={roles} phrases={roles} />
         </motion.p>
 
         {/* CTA */}
