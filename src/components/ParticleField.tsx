@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
+import { useTheme } from "@/contexts/ThemeContext";
 
 interface Particle {
   x: number;
@@ -12,10 +13,9 @@ interface Particle {
   color: string;
 }
 
-const COLORS = ["#FFB09C", "#C4B5FD", "#6EE7B7"];
-
 export default function ParticleField() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const { theme } = useTheme();
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -36,6 +36,11 @@ export default function ParticleField() {
     resize();
     window.addEventListener("resize", resize);
 
+    const styles = getComputedStyle(canvas);
+    const colors = ["--theme-primary", "--theme-secondary", "--theme-tertiary"].map(
+      (token) => styles.getPropertyValue(token).trim(),
+    );
+
     // Create particles
     const particles: Particle[] = Array.from({ length: 50 }, () => ({
       x: Math.random() * canvas.width,
@@ -44,7 +49,7 @@ export default function ParticleField() {
       vy: (Math.random() - 0.5) * 0.5,
       size: Math.random() * 3 + 1,
       opacity: Math.random() * 0.5 + 0.1,
-      color: COLORS[Math.floor(Math.random() * COLORS.length)],
+      color: colors[Math.floor(Math.random() * colors.length)],
     }));
 
     const handleMouse = (e: MouseEvent) => {
@@ -117,7 +122,7 @@ export default function ParticleField() {
       window.removeEventListener("resize", resize);
       canvas.removeEventListener("mousemove", handleMouse);
     };
-  }, []);
+  }, [theme]);
 
   return (
     <canvas

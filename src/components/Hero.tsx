@@ -118,7 +118,7 @@ export default function Hero() {
             {personalInfo.name}
           </motion.span>
           <motion.span
-            className="block text-[clamp(3.5rem,10vw,11rem)] font-extrabold tracking-tight dark:[--stroke-color:#ffffff] [--stroke-color:#1A1A2E]"
+            className="block text-[clamp(3.5rem,10vw,11rem)] font-extrabold tracking-tight dark:[--stroke-color:#ffffff] [--stroke-color:var(--theme-ink)]"
             style={{
               WebkitTextStroke: "2px var(--stroke-color)",
               color: "transparent",

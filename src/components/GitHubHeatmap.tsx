@@ -179,21 +179,21 @@ export default function GitHubHeatmap() {
           viewport={{ once: true }}
           transition={{ duration: 0.5, delay: 0.1 }}
         >
-          <div className="rounded-xl border border-navy/5 bg-white p-3 text-center dark:border-white/5 dark:bg-dark-card">
+          <div className="rounded-xl border border-navy/5 bg-surface p-3 text-center dark:border-white/5 dark:bg-dark-card">
             <p className="text-2xl font-extrabold text-navy dark:text-white" style={{ fontFamily: "var(--font-syne)" }}>
               {busiestDay.count}
             </p>
             <p className="text-[10px] text-gray dark:text-gray-light">{t("heatmap.busiest")}</p>
             <p className="text-[9px] text-lavender">{formatDate(busiestDay.date)}</p>
           </div>
-          <div className="rounded-xl border border-navy/5 bg-white p-3 text-center dark:border-white/5 dark:bg-dark-card">
+          <div className="rounded-xl border border-navy/5 bg-surface p-3 text-center dark:border-white/5 dark:bg-dark-card">
             <p className="text-2xl font-extrabold text-navy dark:text-white" style={{ fontFamily: "var(--font-syne)" }}>
               {longestStreak}
             </p>
             <p className="text-[10px] text-gray dark:text-gray-light">{t("heatmap.longest")}</p>
             <p className="text-[9px] text-mint">{t("heatmap.days")}</p>
           </div>
-          <div className="rounded-xl border border-navy/5 bg-white p-3 text-center dark:border-white/5 dark:bg-dark-card">
+          <div className="rounded-xl border border-navy/5 bg-surface p-3 text-center dark:border-white/5 dark:bg-dark-card">
             <p className="text-2xl font-extrabold text-navy dark:text-white" style={{ fontFamily: "var(--font-syne)" }}>
               {currentStreak}
             </p>
@@ -205,7 +205,7 @@ export default function GitHubHeatmap() {
 
       {/* Heatmap */}
       <motion.div
-        className="overflow-x-auto rounded-2xl border border-navy/5 bg-white p-4 dark:border-white/5 dark:bg-dark-card"
+        className="overflow-x-auto rounded-2xl border border-navy/5 bg-surface p-4 dark:border-white/5 dark:bg-dark-card"
         initial={{ opacity: 0, y: 20 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}

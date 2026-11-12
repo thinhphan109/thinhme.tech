@@ -8,6 +8,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.skills": "Kỹ năng",
     "nav.projects": "Dự án",
     "nav.contact": "Liên hệ",
+    "appearance.title": "Giao diện",
+    "appearance.mode": "Chế độ hiển thị",
+    "appearance.light": "Sáng",
+    "appearance.dark": "Tối",
+    "appearance.system": "Hệ thống",
 
     // Hero
     "hero.greeting": "Xin chào, tôi là",
@@ -120,6 +125,11 @@ export const translations: Record<Locale, Record<string, string>> = {
     "nav.skills": "Skills",
     "nav.projects": "Projects",
     "nav.contact": "Contact",
+    "appearance.title": "Appearance",
+    "appearance.mode": "Color mode",
+    "appearance.light": "Light",
+    "appearance.dark": "Dark",
+    "appearance.system": "System",
 
     // Hero
     "hero.greeting": "Hi, I'm",

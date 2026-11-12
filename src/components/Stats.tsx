@@ -100,7 +100,7 @@ export default function Stats() {
         {stats.map((stat, i) => (
           <motion.div
             key={i}
-            className="group flex flex-col items-center gap-3 rounded-2xl border border-navy/5 bg-white p-6 text-center dark:border-white/5 dark:bg-dark-card"
+            className="group flex flex-col items-center gap-3 rounded-2xl border border-navy/5 bg-surface p-6 text-center dark:border-white/5 dark:bg-dark-card"
             variants={fadeInUp}
             whileHover={{
               y: -8,

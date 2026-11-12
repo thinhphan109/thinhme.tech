@@ -1,9 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { Menu, X, Sun, Moon } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import AccentPicker from "./AccentPicker";
+import ThemeToggle from "./ThemeToggle";
 import LanguageToggle from "./LanguageToggle";
 import { useLanguage } from "@/contexts/LanguageContext";
 
@@ -43,55 +43,29 @@ const mobileLinkVariants = {
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const [dark, setDark] = useState(false);
-  const [mounted, setMounted] = useState(false);
   const { t } = useLanguage();
 
   useEffect(() => {
-    setMounted(true);
-
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };
     window.addEventListener("scroll", handleScroll, { passive: true });
 
-    // Init theme
-    const saved = localStorage.getItem("theme");
-    if (saved === "dark") {
-      setDark(true);
-      document.body.classList.add("dark");
-      document.documentElement.classList.add("dark");
-    }
-
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
-
-  const toggleTheme = () => {
-    const newDark = !dark;
-    setDark(newDark);
-    if (newDark) {
-      document.body.classList.add("dark");
-      document.documentElement.classList.add("dark");
-      localStorage.setItem("theme", "dark");
-    } else {
-      document.body.classList.remove("dark");
-      document.documentElement.classList.remove("dark");
-      localStorage.setItem("theme", "light");
-    }
-  };
 
   return (
     <>
       <motion.nav
         className={`fixed top-0 left-0 right-0 z-40 transition-all duration-500 ${scrolled
-            ? "bg-white/70 shadow-lg backdrop-blur-xl dark:bg-dark-bg/70"
+            ? "bg-surface/70 shadow-lg backdrop-blur-xl dark:bg-dark-bg/70"
             : "bg-transparent"
           }`}
         initial={{ y: -100, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as const }}
       >
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4 sm:px-6">
           {/* Logo */}
           <motion.a
             href="#hero"
@@ -106,7 +80,7 @@ export default function Navbar() {
           {/* Right side: Desktop Nav + Theme toggle + Mobile hamburger */}
           <div className="flex items-center gap-12">
             {/* Desktop Nav */}
-            <div className="hidden items-center gap-10 md:flex">
+            <div className="hidden items-center gap-10 lg:flex">
               {navItems.map((item, i) => (
                 <motion.a
                   key={item.href}
@@ -130,46 +104,8 @@ export default function Navbar() {
               ))}
             </div>
 
-            <div className="flex items-center gap-3">
-              {/* Theme Toggle */}
-              <motion.button
-                onClick={toggleTheme}
-                className="flex h-9 w-9 cursor-pointer items-center justify-center rounded-full bg-cream-dark/80 text-navy transition-all duration-300 hover:bg-peach/20 dark:bg-dark-card/80 dark:text-white dark:hover:bg-lavender/20"
-                aria-label="Toggle theme"
-                whileHover={{ scale: 1.15, rotate: 15 }}
-                whileTap={{ scale: 0.9 }}
-              >
-                <AnimatePresence mode="wait">
-                  {mounted ? (
-                    dark ? (
-                      <motion.div
-                        key="sun"
-                        initial={{ rotate: -90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: 90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Sun className="h-4 w-4 text-peach" />
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="moon"
-                        initial={{ rotate: 90, opacity: 0 }}
-                        animate={{ rotate: 0, opacity: 1 }}
-                        exit={{ rotate: -90, opacity: 0 }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        <Moon className="h-4 w-4" />
-                      </motion.div>
-                    )
-                  ) : (
-                    <span className="h-4 w-4" />
-                  )}
-                </AnimatePresence>
-              </motion.button>
-
-              {/* Accent Color Picker */}
-              <AccentPicker />
+            <div className="relative flex items-center gap-2 sm:gap-3">
+              <ThemeToggle />
 
               {/* Language Toggle */}
               <LanguageToggle />
@@ -177,7 +113,7 @@ export default function Navbar() {
               {/* Mobile toggle */}
               <motion.button
                 onClick={() => setMobileOpen(!mobileOpen)}
-                className="cursor-pointer md:hidden text-navy dark:text-white"
+                className="cursor-pointer lg:hidden text-navy dark:text-white"
                 aria-label="Toggle menu"
                 whileTap={{ scale: 0.9 }}
               >
@@ -192,7 +128,7 @@ export default function Navbar() {
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            className="fixed inset-0 z-30 flex flex-col items-center justify-center gap-8 bg-white/95 backdrop-blur-xl dark:bg-dark-bg/95 md:hidden"
+            className="fixed inset-0 z-30 flex flex-col items-center justify-center gap-8 bg-surface/95 backdrop-blur-xl dark:bg-dark-bg/95 lg:hidden"
             variants={mobileMenuVariants}
             initial="hidden"
             animate="visible"

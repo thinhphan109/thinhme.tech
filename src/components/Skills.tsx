@@ -145,7 +145,7 @@ export default function Skills() {
           {filteredSkills.map((skill, i) => (
             <motion.div
               key={skill.name}
-              className={`group rounded-2xl border border-navy/5 bg-white p-6 dark:border-white/5 dark:bg-dark-card dark:hover:border-white/10 ${
+              className={`group rounded-2xl border border-navy/5 bg-surface p-6 dark:border-white/5 dark:bg-dark-card dark:hover:border-white/10 ${
                 hoveredSkill === skill.name ? "scale-[1.02]" : ""
               }`}
               custom={i}

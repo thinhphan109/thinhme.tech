@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Syne, Inter, JetBrains_Mono } from "next/font/google";
 import Providers from "@/components/Providers";
+import { appearanceScript } from "@/lib/appearance";
 import "./globals.css";
 
 const syne = Syne({
@@ -70,9 +71,11 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: appearanceScript }} />
+      </head>
       <body
         className={`${syne.variable} ${inter.variable} ${jetbrains.variable} antialiased`}
-        suppressHydrationWarning
       >
         <Providers>
           {children}

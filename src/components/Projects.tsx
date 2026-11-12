@@ -70,7 +70,7 @@ function TiltProjectCard({
   return (
     <motion.div
       ref={cardRef}
-      className={`group relative overflow-hidden rounded-3xl border border-navy/5 bg-white dark:border-white/8 dark:bg-dark-card ${project.featured ? "md:col-span-2 md:grid md:grid-cols-2" : ""
+      className={`group relative overflow-hidden rounded-3xl border border-navy/5 bg-surface dark:border-white/8 dark:bg-dark-card ${project.featured ? "md:col-span-2 md:grid md:grid-cols-2" : ""
         }`}
       custom={index}
       variants={cardVariants}
@@ -151,7 +151,7 @@ function TiltProjectCard({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View live"
-            whileHover={{ scale: 1.15, backgroundColor: "#FFB09C" }}
+            whileHover={{ scale: 1.15, backgroundColor: "var(--theme-primary)" }}
             whileTap={{ scale: 0.9 }}
           >
             <ExternalLink className="h-5 w-5" />
@@ -162,7 +162,7 @@ function TiltProjectCard({
             target="_blank"
             rel="noopener noreferrer"
             aria-label="View source"
-            whileHover={{ scale: 1.15, backgroundColor: "#C4B5FD" }}
+            whileHover={{ scale: 1.15, backgroundColor: "var(--theme-secondary)" }}
             whileTap={{ scale: 0.9 }}
           >
             <Github className="h-5 w-5" />

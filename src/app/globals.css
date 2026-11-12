@@ -3,26 +3,115 @@
 /* Enable class-based dark mode (Tailwind v4) */
 @custom-variant dark (&:where(.dark, .dark *));
 
-/* ===== DESIGN SYSTEM: LIQUID MOTION ===== */
+/* Liquid Motion is the default. The same tokens also draw each picker swatch. */
+:root,
+[data-theme-preview] {
+  --theme-canvas: #FAF8F5;
+  --theme-inset: #F0EDE8;
+  --theme-surface: #FFFFFF;
+  --theme-ink: #1A1A2E;
+  --theme-ink-soft: #2D2D44;
+  --theme-primary: #FFB09C;
+  --theme-primary-light: #FFD4C8;
+  --theme-secondary: #C4B5FD;
+  --theme-secondary-light: #DDD6FE;
+  --theme-tertiary: #6EE7B7;
+  --theme-tertiary-light: #A7F3D0;
+  --theme-night: #0F0F1A;
+  --theme-night-surface: #1A1A2E;
+  --theme-night-card: #252540;
+}
+
+:root[data-theme="ocean"],
+[data-theme-preview="ocean"] {
+  --theme-canvas: #F0F7FC;
+  --theme-inset: #E2EDF7;
+  --theme-surface: #F8FCFF;
+  --theme-ink: #132A42;
+  --theme-ink-soft: #284763;
+  --theme-primary: #60A5FA;
+  --theme-primary-light: #93C5FD;
+  --theme-secondary: #34D399;
+  --theme-secondary-light: #6EE7B7;
+  --theme-tertiary: #F472B6;
+  --theme-tertiary-light: #F9A8D4;
+  --theme-night: #0B1827;
+  --theme-night-surface: #132437;
+  --theme-night-card: #1B334A;
+}
+
+:root[data-theme="violet"],
+[data-theme-preview="violet"] {
+  --theme-canvas: #F6F3FC;
+  --theme-inset: #EBE5F7;
+  --theme-surface: #FCFAFF;
+  --theme-ink: #281D40;
+  --theme-ink-soft: #46345F;
+  --theme-primary: #A78BFA;
+  --theme-primary-light: #C4B5FD;
+  --theme-secondary: #F472B6;
+  --theme-secondary-light: #F9A8D4;
+  --theme-tertiary: #38BDF8;
+  --theme-tertiary-light: #7DD3FC;
+  --theme-night: #161123;
+  --theme-night-surface: #221A35;
+  --theme-night-card: #302546;
+}
+
+:root[data-theme="emerald"],
+[data-theme-preview="emerald"] {
+  --theme-canvas: #F1F8F3;
+  --theme-inset: #E3EFE7;
+  --theme-surface: #FAFDFB;
+  --theme-ink: #18372D;
+  --theme-ink-soft: #2C5144;
+  --theme-primary: #34D399;
+  --theme-primary-light: #6EE7B7;
+  --theme-secondary: #FBBF24;
+  --theme-secondary-light: #FDE68A;
+  --theme-tertiary: #818CF8;
+  --theme-tertiary-light: #A5B4FC;
+  --theme-night: #0C1C17;
+  --theme-night-surface: #152A22;
+  --theme-night-card: #1E392E;
+}
+
+:root[data-theme="rose"],
+[data-theme-preview="rose"] {
+  --theme-canvas: #FCF4F4;
+  --theme-inset: #F4E7E8;
+  --theme-surface: #FFFBFB;
+  --theme-ink: #3B222D;
+  --theme-ink-soft: #5B3647;
+  --theme-primary: #FB7185;
+  --theme-primary-light: #FDA4AF;
+  --theme-secondary: #38BDF8;
+  --theme-secondary-light: #7DD3FC;
+  --theme-tertiary: #A3E635;
+  --theme-tertiary-light: #BEF264;
+  --theme-night: #21141C;
+  --theme-night-surface: #311F2A;
+  --theme-night-card: #422B38;
+}
 
 @theme inline {
   /* Colors */
-  --color-cream: #FAF8F5;
-  --color-cream-dark: #F0EDE8;
-  --color-surface: #FFFFFF;
-  --color-navy: #1A1A2E;
-  --color-navy-light: #2D2D44;
+  --color-cream: var(--theme-canvas);
+  --color-cream-dark: var(--theme-inset);
+  --color-surface: var(--theme-surface);
+  --color-navy: var(--theme-ink);
+  --color-navy-light: var(--theme-ink-soft);
   --color-gray: #6B7280;
   --color-gray-light: #9CA3AF;
-  --color-peach: #FFB09C;
-  --color-peach-light: #FFD4C8;
-  --color-lavender: #C4B5FD;
-  --color-lavender-light: #DDD6FE;
-  --color-mint: #6EE7B7;
-  --color-mint-light: #A7F3D0;
-  --color-dark-bg: #0F0F1A;
-  --color-dark-surface: #1A1A2E;
-  --color-dark-card: #252540;
+  --color-peach: var(--theme-primary);
+  --color-peach-light: var(--theme-primary-light);
+  --color-lavender: var(--theme-secondary);
+  --color-lavender-light: var(--theme-secondary-light);
+  --color-mint: var(--theme-tertiary);
+  --color-mint-light: var(--theme-tertiary-light);
+  --color-dark-bg: var(--theme-night);
+  --color-dark-surface: var(--theme-night-surface);
+  --color-dark-card: var(--theme-night-card);
 
   /* Fonts */
   --font-heading: var(--font-syne);
@@ -33,24 +122,72 @@
 /* ===== GLOBAL STYLES ===== */
 html {
   scroll-behavior: smooth;
+  color-scheme: light;
+  overflow-x: clip;
+}
+
+html.dark {
+  color-scheme: dark;
 }
 
 body {
-  background: var(--color-cream);
-  color: var(--color-navy);
+  background: var(--theme-canvas);
+  color: var(--theme-ink);
   font-family: var(--font-body), system-ui, sans-serif;
   overflow-x: hidden;
   transition: background-color 0.5s ease, color 0.5s ease;
 }
 
-body.dark {
-  background: var(--color-dark-bg);
+.dark body {
+  background: var(--theme-night);
   color: #E5E7EB;
 }
 
 ::selection {
-  background: var(--color-peach);
-  color: var(--color-navy);
+  background: var(--theme-primary);
+  color: var(--theme-ink);
+}
+
+.appearance-focus:focus-visible,
+input:focus-visible + .appearance-focus {
+  outline: 2px solid var(--theme-ink);
+  outline-offset: 2px;
+}
+
+.dark .appearance-focus:focus-visible,
+.dark input:focus-visible + .appearance-focus {
+  outline-color: white;
+}
+
+.theme-preview {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  width: 36px;
+  height: 24px;
+  border: 1px solid color-mix(in srgb, var(--theme-ink) 15%, transparent);
+  border-radius: 6px;
+  background: var(--theme-canvas);
+}
+
+.dark .theme-preview {
+  border-color: rgb(255 255 255 / 20%);
+  background: var(--theme-night);
+}
+
+.theme-preview::before,
+.theme-preview::after {
+  content: "";
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--theme-primary);
+}
+
+.theme-preview::after {
+  background: var(--theme-secondary);
 }
 
 /* ===== CUSTOM SCROLLBAR ===== */
@@ -61,7 +198,7 @@ body.dark {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: var(--color-lavender);
+  background: var(--theme-secondary);
   border-radius: 999px;
 }
 
@@ -133,10 +270,10 @@ body.dark {
   top: 0;
   left: 0;
   height: 4px;
-  background: linear-gradient(90deg, var(--color-peach), var(--color-lavender), var(--color-mint));
+  background: linear-gradient(90deg, var(--theme-primary), var(--theme-secondary), var(--theme-tertiary));
   z-index: 9999;
   transition: width 0.1s linear;
-  box-shadow: 0 0 10px var(--color-peach), 0 0 5px var(--color-lavender);
+  box-shadow: 0 0 10px var(--theme-primary), 0 0 5px var(--theme-secondary);
 }
 
 /* ===== SECTION REVEAL ===== */
@@ -196,13 +333,8 @@ body.dark {
 }
 
 /* ===== DARK MODE OVERRIDES ===== */
-.dark body,
-body.dark {
-  background: var(--color-dark-bg);
-}
-
 .dark .project-card:hover {
-  box-shadow: 0 20px 60px -15px rgba(196, 181, 253, 0.15);
+  box-shadow: 0 20px 60px -15px color-mix(in srgb, var(--theme-secondary) 15%, transparent);
 }
 
 /* ===== FADE IN ANIMATION ===== */
