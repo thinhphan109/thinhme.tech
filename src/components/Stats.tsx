@@ -6,6 +6,37 @@ import { motion, useInView } from "framer-motion";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
 import { useLanguage } from "@/contexts/LanguageContext";
 
+const visitorEndpoint = "https://thinhphan-simple-visitor.phanthinh10092006.workers.dev/api/visitor/simple";
+const visitorCacheKey = "visitor_count_cache";
+let visitorRequest: Promise<number | null> | undefined;
+
+async function countVisit() {
+  // This Worker increments the count even on GET. Reuse the result within the tab's session.
+  try {
+    const cached = sessionStorage.getItem(visitorCacheKey);
+    if (cached !== null && /^\d+$/.test(cached) && Number.isSafeInteger(Number(cached))) {
+      return Number(cached);
+    }
+  } catch {
+    // The browser can block access to session storage.
+  }
+
+  const response = await fetch(visitorEndpoint, { method: "POST" });
+  if (!response.ok) throw new Error("Visitor counter request failed");
+
+  const { count, status }: { count?: unknown; status?: unknown } = await response.json();
+  if (status !== "success" || typeof count !== "number" || !Number.isSafeInteger(count) || count < 0) {
+    throw new Error("Invalid visitor counter response");
+  }
+
+  try {
+    sessionStorage.setItem(visitorCacheKey, String(count));
+  } catch {
+    // The count is still available for this page.
+  }
+  return count;
+}
+
 function AnimatedNumber({ target, suffix, animated }: { target: number; suffix: string; animated: boolean }) {
   const [count, setCount] = useState(0);
 
@@ -39,45 +70,25 @@ export default function Stats() {
   const { t } = useLanguage();
   const sectionRef = useRef<HTMLElement>(null);
   const isInView = useInView(sectionRef, { once: true, amount: 0.3 });
-  const [visitorCount, setVisitorCount] = useState(0);
-  const [visitorLoading, setVisitorLoading] = useState(true);
+  const [visitorCount, setVisitorCount] = useState<number | null>();
 
-  // Cloudflare Visitor Counter — chỉ đếm 1 lần/session
   useEffect(() => {
-    const fetchVisitorCount = async () => {
-      try {
-        const alreadyCounted = sessionStorage.getItem("visitor_counted");
-
-        const response = await fetch("https://thinhphan.io.vn/api/visitor/simple", {
-          method: alreadyCounted ? "GET" : "POST",
-          headers: { "Content-Type": "application/json" },
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          setVisitorCount(data.count || 0);
-          sessionStorage.setItem("visitor_counted", "true");
-          sessionStorage.setItem("visitor_count_cache", String(data.count));
-        } else {
-          throw new Error("API failed");
-        }
-      } catch {
-        // Fallback: dùng cache hoặc 0
-        const cached = sessionStorage.getItem("visitor_count_cache");
-        setVisitorCount(cached ? parseInt(cached) : 0);
-      } finally {
-        setVisitorLoading(false);
-      }
-    };
-
-    fetchVisitorCount();
+    let active = true;
+    visitorRequest ??= countVisit().catch(() => {
+      visitorRequest = undefined;
+      return null;
+    });
+    void visitorRequest.then((count) => {
+      if (active) setVisitorCount(count);
+    });
+    return () => { active = false; };
   }, []);
 
   const stats = [
     { icon: <Coffee className="h-6 w-6" />, value: 5, suffix: "+", label: t("stats.experience"), color: "text-peach" },
     { icon: <GitBranch className="h-6 w-6" />, value: 9, suffix: "", label: t("stats.repos"), color: "text-lavender" },
     { icon: <Code2 className="h-6 w-6" />, value: 1000, suffix: "+", label: t("stats.contributions"), color: "text-mint" },
-    { icon: <Eye className="h-6 w-6" />, value: visitorCount, suffix: "", label: t("stats.visitors"), color: "text-peach", loading: visitorLoading },
+    { icon: <Eye className="h-6 w-6" />, value: visitorCount, suffix: "", label: t("stats.visitors"), color: "text-peach" },
   ];
 
   return (
@@ -119,12 +130,14 @@ export default function Stats() {
               className="text-3xl font-extrabold text-navy dark:text-white md:text-4xl"
               style={{ fontFamily: "var(--font-syne)" }}
             >
-              {'loading' in stat && stat.loading ? (
+              {stat.value === undefined ? (
                 <motion.span
                   className="inline-block h-8 w-16 rounded-lg bg-navy/5 dark:bg-white/5"
                   animate={{ opacity: [0.5, 1, 0.5] }}
                   transition={{ duration: 1.5, repeat: Infinity }}
                 />
+              ) : stat.value === null ? (
+                "—"
               ) : (
                 <AnimatedNumber target={stat.value} suffix={stat.suffix} animated={isInView} />
               )}
