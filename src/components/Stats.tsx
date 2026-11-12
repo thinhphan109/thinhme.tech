@@ -1,27 +1,17 @@
 "use client";
 
 import { useEffect, useState, useRef } from "react";
-import { Code2, GitBranch, Coffee, Zap, Eye } from "lucide-react";
+import { Code2, GitBranch, Coffee, Eye } from "lucide-react";
 import { motion, useInView } from "framer-motion";
 import { staggerContainer, fadeInUp } from "@/lib/animations";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 const visitorEndpoint = "https://thinhphan-simple-visitor.phanthinh10092006.workers.dev/api/visitor/simple";
-const visitorCacheKey = "visitor_count_cache";
+// Share the request across renders of this page. A full reload starts a new request.
 let visitorRequest: Promise<number | null> | undefined;
 
 async function countVisit() {
-  // This Worker increments the count even on GET. Reuse the result within the tab's session.
-  try {
-    const cached = sessionStorage.getItem(visitorCacheKey);
-    if (cached !== null && /^\d+$/.test(cached) && Number.isSafeInteger(Number(cached))) {
-      return Number(cached);
-    }
-  } catch {
-    // The browser can block access to session storage.
-  }
-
-  const response = await fetch(visitorEndpoint, { method: "POST" });
+  const response = await fetch(visitorEndpoint, { method: "POST", keepalive: true });
   if (!response.ok) throw new Error("Visitor counter request failed");
 
   const { count, status }: { count?: unknown; status?: unknown } = await response.json();
@@ -29,11 +19,6 @@ async function countVisit() {
     throw new Error("Invalid visitor counter response");
   }
 
-  try {
-    sessionStorage.setItem(visitorCacheKey, String(count));
-  } catch {
-    // The count is still available for this page.
-  }
   return count;
 }
 
@@ -74,10 +59,7 @@ export default function Stats() {
 
   useEffect(() => {
     let active = true;
-    visitorRequest ??= countVisit().catch(() => {
-      visitorRequest = undefined;
-      return null;
-    });
+    visitorRequest ??= countVisit().catch(() => null);
     void visitorRequest.then((count) => {
       if (active) setVisitorCount(count);
     });
